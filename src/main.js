@@ -1,12 +1,13 @@
-import "index.less"
+import Vue from 'vue'
+import App from './App.vue'
 
-document.write('beijing welcome to you!')
+console.log("Running App version " + CONSTANTS.APP_VERSION);
 
-let arr = [];
 
-for (let i = 0; i < 100; i++) {
-    arr.push(i)
-}
-
-console.log(arr)
-
+new Vue({
+    el: '#app',
+    template: '<App/>',
+    components: {
+        App
+    }
+});
