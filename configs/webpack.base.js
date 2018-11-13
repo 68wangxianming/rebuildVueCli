@@ -25,15 +25,20 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpg|svg)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1024,
-              name: 'img/[name].[hash:8].[ext]'
-            }
+        loader: "url-loader",
+        options: {
+          publicPath: './img'
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 1,
+            name: 'img/[name].[hash:7].[ext]'
           }
-        ]
+        }
       },
     ],
   },
@@ -44,11 +49,14 @@ module.exports = {
     ],
     alias: {
       vue: 'vue/dist/vue.js',
-      pages: path.resolve(__dirname, 'src/pages'), // 这里使用 path.resolve 和 __dirname 来获取绝对路径
-      apis: path.resolve(__dirname, 'src/apis'),
-      components: path.resolve(__dirname, 'src/components'),
-      router: path.resolve(__dirname, 'src/router'),
-      views: path.resolve(__dirname, 'src/views'),
+      "@apis": path.resolve('src/apis'),
+      "@assets": path.resolve("src/assets"),
+      "@common": path.resolve('src/common'),
+      "@components": path.resolve('src/components'),
+      "@language": path.resolve('src/language'),
+      "@plugins": path.resolve('src/plugins'),
+      "@router": path.resolve('src/router'),
+      "@views": path.resolve("src/views"),
     },
 
     extensions: [".wasm", ".mjs", ".js", ".json", ".jsx", '.css', 'less'],

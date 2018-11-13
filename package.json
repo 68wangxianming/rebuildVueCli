@@ -33,6 +33,7 @@
     "image-webpack-loader": "^4.5.0",
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
+    "mini-css-extract-plugin": "^0.4.4",
     "style-loader": "^0.20.3",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
@@ -47,6 +48,7 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
+    "element-ui": "^2.4.9",
     "vue": "^2.5.17"
   }
 }

@@ -21,7 +21,7 @@
             }
         },
         created() {
-            this.captcha()
+            // this.captcha()
         },
         watch: {
             '$route'(to, from) {
