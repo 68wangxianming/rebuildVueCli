@@ -12,13 +12,19 @@ const config = merge(baseCinfig, {
       {
         test: /\.css$/,
         use: [
+          'style-loader',
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: '../'
             }
           },
-          "css-loader"
+          {
+            loader: 'css-loader',
+            options:{
+              minimize: true //css压缩
+            }
+          }
         ]
       },
       {

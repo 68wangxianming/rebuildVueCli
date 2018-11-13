@@ -20,6 +20,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        include: [path.resolve(__dirname,'src')],
         use: 'babel-loader',
         exclude: /node_modules/,
       },
@@ -78,6 +79,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: 'index.html', // 配置文件模板
+      minify: { // 压缩 HTML 的配置
+        minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
+        minifyJS: true // 压缩 HTML 中出现的 JS 代码
+      }
     }),
   ],
 }
