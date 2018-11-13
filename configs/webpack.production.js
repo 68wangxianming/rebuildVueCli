@@ -16,18 +16,28 @@ const config = merge(baseCinfig, {
                     use: 'css-loader'
                 })
             },
-            {
-                test: /\.less$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'less-loader'
-                ],
-            },
+            // {
+            //     test: /.less$/,
+            //     use: ExtractTextPlugin.extract({
+            //         use:[
+            //             {loader:'css-loader'},
+            //             {loader:'less-loader'}
+            //         ],
+            //         fallback: 'style-loader',
+            //     })
+            // },
+          {
+            test: /\.less$/,
+            use: [
+              'style-loader',
+              'css-loader',
+              'less-loader'
+            ],
+          },
         ]
     },
     plugins: [
-        new ExtractTextPlugin('css/[name].[hash:7].css'),
+        new ExtractTextPlugin('css/[name].[hash:7].css')
     ],
     optimization: {
         splitChunks: {
