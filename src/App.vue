@@ -22,7 +22,7 @@
       }
     },
     created() {
-      // this.captcha()
+      this.captcha()
     },
     watch: {
       '$route'(to, from) {
@@ -33,9 +33,9 @@
     },
     methods: {
       captcha() {
-        this.$api.sendRequest('captcha').then(res => {
-          console.log(res, '验证码');
-        })
+        // this.$api.sendRequest('captcha').then(res => {
+        //   console.log(res, '验证码');
+        // })
       }
     },
   }

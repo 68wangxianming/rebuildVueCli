@@ -7,7 +7,8 @@ const smp = new SpeedMeasurePlugin();
 
 const config = merge(baseCinfig, {
   output: {
-    filename: 'js/[name].[chunkhash:8].js'
+    filename: 'js/[name].[chunkhash:8].js',
+    publicPath: "/"
   },
   module: {
     rules: [

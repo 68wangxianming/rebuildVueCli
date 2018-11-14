@@ -4,7 +4,15 @@ const {VueLoaderPlugin} = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin');//前端小缓存 非常重要
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+// const DashboardPlugin = require('webpack-dashboard/plugin');//打包完小窗展示"dev": "webpack-dashboard -- node index.js"
+const setTitle = require('node-bash-title');
+setTitle('🍎🍎🍎🍎🍎 rebuildVueCli');
+const loading = {
+  html:'加载中......'
+}
 
 module.exports = {
   entry: './src/main.js',
@@ -69,6 +77,8 @@ module.exports = {
     hints: false
   },
   plugins: [
+    // new DashboardPlugin(),
+    new ProgressBarPlugin(),
     new webpack.DefinePlugin({
       CONSTANTS: {
         APP_VERSION: JSON.stringify('1.1.2') // 配置变量APP版本号
@@ -78,6 +88,7 @@ module.exports = {
       {from: 'src/assets/favicon.ico', to: 'favicon.ico',}, // 顾名思义，from 配置来源，to 配置目标路径
     ]),
     new VueLoaderPlugin(),
+    new ManifestPlugin(),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
@@ -85,7 +96,8 @@ module.exports = {
       minify: { // 压缩 HTML 的配置
         minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
         minifyJS: true // 压缩 HTML 中出现的 JS 代码
-      }
+      },
+      loading
     }),
     new WebpackBuildNotifierPlugin({
       title: "大爷！包打好了",
