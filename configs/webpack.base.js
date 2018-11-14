@@ -3,6 +3,8 @@ const webpack = require('webpack')
 const {VueLoaderPlugin} = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 
 module.exports = {
   entry: './src/main.js',
@@ -76,6 +78,7 @@ module.exports = {
       {from: 'src/assets/favicon.ico', to: 'favicon.ico',}, // 顾名思义，from 配置来源，to 配置目标路径
     ]),
     new VueLoaderPlugin(),
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: 'index.html', // 配置文件模板
@@ -84,5 +87,10 @@ module.exports = {
         minifyJS: true // 压缩 HTML 中出现的 JS 代码
       }
     }),
+    new WebpackBuildNotifierPlugin({
+      title: "大爷！包打好了",
+      // logo: path.resolve("./img/favicon.png"),
+      suppressSuccess: true
+    })
   ],
 }

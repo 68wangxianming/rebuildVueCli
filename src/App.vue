@@ -65,6 +65,12 @@
       width: 100px;
       height: 100px;
     }
+    .good{
+      color: red;
+    }
+    .bad{
+      color: red;
+    }
 
     .child-view {
       position: absolute;

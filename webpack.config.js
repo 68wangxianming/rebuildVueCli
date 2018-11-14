@@ -3,3 +3,4 @@ module.exports = function(env, argv) {
         require('./configs/webpack.production') :
         require('./configs/webpack.development')
 }
+
