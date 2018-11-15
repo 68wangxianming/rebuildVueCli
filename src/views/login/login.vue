@@ -2,6 +2,7 @@
   <div class="index">
     <p>This is login pages!</p>
     <p>Welcome to here!</p>
+    <div class="test">测试前缀</div>
     <el-row>
       <el-button>默认按钮</el-button>
       <el-button type="primary">主要按钮</el-button>
@@ -26,6 +27,12 @@
       color: cornflowerblue;
       line-height: 30px;
       letter-spacing: 1px;
+    }
+    .test{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
     }
   }
 </style>

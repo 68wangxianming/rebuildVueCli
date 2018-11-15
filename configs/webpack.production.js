@@ -8,7 +8,7 @@ const smp = new SpeedMeasurePlugin();
 const config = merge(baseCinfig, {
   output: {
     filename: 'js/[name].[chunkhash:8].js',
-    publicPath: "/"
+    // publicPath: "/"
   },
   module: {
     rules: [
@@ -27,6 +27,9 @@ const config = merge(baseCinfig, {
             options: {
               minimize: true //css压缩
             }
+          },
+          {
+            loader: 'postcss-loader'
           }
         ]
       },
@@ -35,7 +38,8 @@ const config = merge(baseCinfig, {
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
-          "less-loader"
+          "less-loader",
+          'postcss-loader'
         ]
       }
     ]

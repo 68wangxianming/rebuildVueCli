@@ -11,7 +11,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const setTitle = require('node-bash-title');
 setTitle('🍎🍎🍎🍎🍎 rebuildVueCli');
 const loading = {
-  html:'加载中......'
+  html: '加载中......'
 }
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: [path.resolve(__dirname,'src')],
+        include: [path.resolve(__dirname, 'src')],
         use: 'babel-loader',
         exclude: /node_modules/,
       },
