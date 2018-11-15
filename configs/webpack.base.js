@@ -70,7 +70,7 @@ module.exports = {
       "@views": path.resolve("src/views"),
     },
 
-    extensions: [".wasm", ".mjs", ".js", ".json", ".jsx", '.css', 'less'],
+    extensions: ["vue",".wasm", ".mjs", ".js", ".json", ".jsx", '.css', 'less'],
   },
 
   performance: {

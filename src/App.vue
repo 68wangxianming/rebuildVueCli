@@ -1,13 +1,5 @@
 <template>
   <div class="index">
-    <div class="logoImg"></div>
-    <h1>唐山三百首</h1>
-    <p>锄禾日当午</p>
-    <p>汗滴禾下土</p>
-    <p>谁知盘中餐</p>
-    <p>粒粒皆辛苦</p>
-    <h1>{{$t("m.name")}}</h1>
-    <img src="./assets/superman.gif" alt="">
     <transition :name="transitionName">
       <router-view class="child-view"></router-view>
     </transition>
@@ -42,35 +34,6 @@
 </script>
 
 <style scoped lang="less">
-  .index {
-    background-color: azure;
-    .logoImg {
-      width: 100px;
-      height: 100px;
-      background: url("./assets/webpack.png");
-      background-size: 100% 100%;
-    }
-    h1 {
-      color: red;
-    }
-    p {
-      color: aquamarine;
-    }
-    img {
-      width: 100px;
-      height: 100px;
-    }
-
-    .haha {
-      width: 100px;
-      height: 100px;
-    }
-    .good{
-      color: red;
-    }
-    .bad{
-      color: red;
-    }
 
     .child-view {
       position: absolute;
@@ -88,5 +51,4 @@
       -webkit-transform: translate(-30px, 0);
       transform: translate(-30px, 0);
     }
-  }
 </style>

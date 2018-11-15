@@ -7,8 +7,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import NetworkHandler from "./plugins/NetworkHandler";
 import NetworkConfig from "./apis/NetworkConfig"
 import VueI18n from 'vue-i18n'
+import './assets/icon/iconfont.css'
+import './assets/css/rest.css'
+import Function from './plugins/index'
 
-
+Vue.prototype.$Func = Function
 Vue.use(ElementUI);
 Vue.use(NetworkHandler, NetworkConfig);
 Vue.use(VueI18n)
