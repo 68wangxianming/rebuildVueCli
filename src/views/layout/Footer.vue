@@ -12,14 +12,15 @@
     methods: {}
   }
 </script>
-<style lang="less" scoped>
+<style lang="less">
   .footer {
-    width: 100%;
+    width: calc(~'100vw - 240px');
     height: 50px;
     line-height: 50px;
     background: #f0f2f5;
     color: rgba(0,0,0,.65);
     font-size: 14px;
     text-align: center;
+
   }
 </style>

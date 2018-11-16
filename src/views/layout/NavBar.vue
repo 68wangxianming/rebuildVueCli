@@ -59,7 +59,7 @@
     }
   }
 </script>
-<style lang="less" scoped="">
+<style lang="less" scoped>
   .nav-bar {
     /*margin-top: 50px;*/
     height: 42px;

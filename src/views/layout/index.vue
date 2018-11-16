@@ -50,11 +50,6 @@
           <el-menu-item index="4-4">短信设置</el-menu-item>
         </el-submenu>
       </el-menu>
-      <div class="sidebar-toggle" @click="shrink">
-        <div class="icon-left">
-          <i class="el-icon-back"></i>
-        </div>
-      </div>
     </div>
     <div class="layout-right">
       <div class="layout-nav">
@@ -92,8 +87,8 @@
         <transition name="move" mode="out-in">
           <router-view style="min-height: 100%;"></router-view>
         </transition>
+
       </div>
-      <EuiFooter></EuiFooter>
     </div>
   </div>
 </template>
@@ -101,7 +96,6 @@
 <script>
   import NavBar from './NavBar.vue'
   import screenfull from 'screenfull'
-  import EuiFooter from './Footer.vue';
 
   export default {
     data() {
@@ -143,7 +137,6 @@
     },
     components: {
       NavBar,
-      EuiFooter
     }
   }
 </script>
@@ -156,7 +149,7 @@
       width: 230px;
       height: auto;
       .logo {
-        width: 229px;
+        width: 230px;
         height: 64px;
         text-align: center;
         line-height: 64px;
@@ -166,29 +159,9 @@
         background-color: #424E65;
         transition: all 0.3s ease-in-out;
       }
-      .sidebar-toggle{
-        position: relative;
-        width: 229px;
-
-        height: 50px;
-        background-color: #367fa9;
-        color: #fff;
-        cursor: pointer;
-        .icon-left{
-          position: absolute;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          right: 0;
-          width: 64px;
-          height: 100%;
-          font-size: 20px;
-          transition: all 0.3s ease-in-out;
-        }
-      }
       .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 230px;
-        min-height: calc(~'100vh - 115px');
+        height: 100%;
       }
     }
     .layout-right {
@@ -213,8 +186,9 @@
         }
       }
       .layout-content{
+        position: relative;
         margin: 8px;
-        min-height: calc(100vh - 173px);
+        min-height: calc(100vh - 120px);
         background: #fff;
       }
     }

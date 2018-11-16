@@ -109,7 +109,7 @@
               } else {
                 localStorage.setItem("adminName", this.adminName);
                 this.$store.commit('UPDATE_ADMIN_TOKEN', accessToken);
-                this.$router.push('/menu/home')
+                this.$router.push('/user-info')
               }
             })
           }
