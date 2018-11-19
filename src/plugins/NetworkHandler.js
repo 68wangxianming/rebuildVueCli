@@ -41,11 +41,11 @@ class NetworkHandler {
     let res = new Promise((resolve, reject) => {
       axios(config).then(res => {
         res = res && res.data || res;
-        console.log('===HttpUtil Resolve===', res);
+        // console.log('===HttpUtil Resolve===', res);
         resolve(res);
       }).catch(err => {
         err = err.response && err.response.data || err;
-        console.log('===HttpUtil Reject===', err, err.errors);
+        console.log('===HttpUtil Reject===', err);
         reject(err);
       });
     });

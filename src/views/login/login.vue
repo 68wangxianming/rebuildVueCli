@@ -85,7 +85,7 @@
     },
     methods: {
       getCaptcha() {
-        this.$api.sendRequest('captcha', {width: 120, height: 30, fontSize: 25}).then(res => {
+        this.$api.sendRequest('captcha', {width: 120, height: 30, fontSize: 40}).then(res => {
           this.uuid = res.data && res.data.uuid || null;
           this.captcha = res.data && res.data.captcha || null;
           // this.$store.commit('UPDATE_USERNAME', this.uuid);
