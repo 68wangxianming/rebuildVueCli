@@ -14,7 +14,7 @@
             <i class="el-icon-location"></i>
             <span>系统管理</span>
           </template>
-          <el-menu-item index="user-info">用户与角色</el-menu-item>
+          <el-menu-item index="user-role">用户与角色</el-menu-item>
           <el-menu-item index="rule-set">参数与规则</el-menu-item>
           <el-menu-item index="cost-set">费用设置</el-menu-item>
           <el-menu-item index="sort-set">短信设置</el-menu-item>

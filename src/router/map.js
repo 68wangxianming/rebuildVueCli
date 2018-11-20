@@ -15,9 +15,9 @@ export default {
     children: [
       {
         meta: ['系统管理', '用户信息'],
-        path: 'user-info',
+        path: 'user-role',
         component: (resolve) => {
-          require(['@views/system/user-info.vue'], resolve)
+          require(['@views/system/user-role.vue'], resolve)
         }
       },
       {

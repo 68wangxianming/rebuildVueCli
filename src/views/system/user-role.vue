@@ -2,11 +2,11 @@
   <div class="index">
     <template>
       <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick" style="width: 98.5%;">
-        <el-tab-pane label="费用模版" name="first">
-          <CostTemplate></CostTemplate>
+        <el-tab-pane label="用户信息" name="first">
+          <UserInfo></UserInfo>
         </el-tab-pane>
-        <el-tab-pane label="产品说明" name="second">
-          <ProductDescription></ProductDescription>
+        <el-tab-pane label="角色设置" name="second">
+          <RoleSet></RoleSet>
         </el-tab-pane>
       </el-tabs>
     </template>
@@ -14,8 +14,8 @@
 </template>
 
 <script>
-  import CostTemplate from '../../components/costTemplate.vue'
-  import ProductDescription from '../../components/productDescription.vue'
+  import UserInfo from '../../components/userInfo.vue'
+  import RoleSet from '../../components/roleSet.vue'
 
   export default {
     data() {
@@ -28,8 +28,8 @@
       },
     },
     components: {
-      CostTemplate,
-      ProductDescription
+      UserInfo,
+      RoleSet
     }
   };
 </script>
