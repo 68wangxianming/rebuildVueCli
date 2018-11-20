@@ -1,17 +1,15 @@
 <template>
-    <div class="index">
-      test
+    <div>
+      income-analyze
     </div>
 </template>
 
 <script>
     export default {
-        name: "test"
+        name: "income-analyze"
     }
 </script>
 
 <style scoped>
-.index{
-  color: red;
-}
+
 </style>

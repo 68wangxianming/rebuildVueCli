@@ -28,7 +28,7 @@
     watch: {
       '$route': {
         handler: function () {
-          console.log('this.$route',this.$route);
+          // console.log('this.$route',this.$route);
           let index = this.$Func.hasValInArrayObj(this.nav, 'path', this.$route.path);
           if (index != -1) return;
           this.nav.push({

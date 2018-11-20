@@ -35,6 +35,13 @@ let config = {
   getAuthTree: {method: 'get', url: '/api/getAuthTree'},
   saveRole:{method:'post',url:'/api/saveRole'},
   removeRole:{method:'delete',url:'/api/removeRole'},
+  getAdminAuth:{method:'get',url:'/api/getAdminAuth'},
+  getSysConfig:{method:'get',url:'/api/getSysConfig'},
+  saveSysConfig:{method:'post',url:'/api/saveSysConfig'},
+  removeSysConfig:{method:'get',url:'/api/removeSysConfig'},
+  getRejectConfig:{method:'get',url:'/api/getRejectConfig'},
+  saveRejectConfig:{method:'post',url:'/api/saveRejectConfig'},
+  removeRejectConfig:{method:'delete',url:'/api/removeRejectConfig'},
 
 
 

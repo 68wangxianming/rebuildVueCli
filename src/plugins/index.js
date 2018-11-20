@@ -32,5 +32,13 @@ export default {
   returnUserStatus(num) {
     let arr = ['禁用','正常']
     return arr[num]
+  },
+  returnUserStatusNum(str) {
+    if(str.length>1) {
+      let arr = ['禁用','正常']
+      return arr.indexOf(str)
+    }else {
+      return str
+    }
   }
 }

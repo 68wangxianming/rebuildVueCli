@@ -57,7 +57,7 @@
   export default {
     data() {
       return {
-        adminName: '',
+        adminInfo: '',
         captcha: "",
         uuid: '',
         Remenber: true,
@@ -95,21 +95,21 @@
         this.$refs.loginForm.validate((valid) => {
           if (valid) {
             let loginInfo = {
-              email: this.user.email,
-              password: this.user.password,
-              captcha: this.user.code,
+              email: this.user.email.trim(),
+              password: this.user.password.trim(),
+              captcha: this.user.code.trim(),
               uuid: this.uuid
             };
             this.$api.sendRequest('login', loginInfo).then(res => {
-              this.adminName = res.data.adminInfo.name
+              this.adminInfo = res.data.adminInfo
               let accessToken = res.data && res.data.accessToken || null;
               if (!accessToken) {
                 alert('请求失败')
                 return false;
               } else {
-                localStorage.setItem("adminName", this.adminName);
+                localStorage.setItem("adminInfo", JSON.stringify(this.adminInfo));
                 this.$store.commit('UPDATE_ADMIN_TOKEN', accessToken);
-                this.$router.push('/user-info')
+                this.$router.push('/user-role')
               }
             })
           }

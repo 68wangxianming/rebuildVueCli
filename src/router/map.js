@@ -22,9 +22,9 @@ export default {
       },
       {
         meta: ['系统管理', '参数与规则'],
-        path: 'rule-set',
+        path: 'params-rules',
         component: (resolve) => {
-          require(['@views/system/rule-set.vue'], resolve)
+          require(['@views/system/params-rules.vue'], resolve)
         }
       },
       {
@@ -35,10 +35,38 @@ export default {
         }
       },
       {
-        meta: ['系统管理', '短信设置'],
-        path: 'sort-set',
+        meta: ['系统管理', '通知设置'],
+        path: 'notify-set',
         component: (resolve) => {
-          require(['@views/system/sort-set.vue'], resolve)
+          require(['@views/system/notify-set.vue'], resolve)
+        }
+      },
+      {
+        meta: ['借款管理', '借款用户管理'],
+        path: 'loan-user-manage',
+        component: (resolve) => {
+          require(['@views/loan/loan-user-manage.vue'], resolve)
+        }
+      },
+      {
+        meta: ['借款管理', '借款订单管理'],
+        path: 'loan-order-manage',
+        component: (resolve) => {
+          require(['@views/loan/loan-order-manage.vue'], resolve)
+        }
+      },
+      {
+        meta: ['统计管理', '业务统计'],
+        path: 'operation-analyze',
+        component: (resolve) => {
+          require(['@views/analyze/operation-analyze.vue'], resolve)
+        }
+      },
+      {
+        meta: ['统计管理', '收益统计'],
+        path: 'income-analyze',
+        component: (resolve) => {
+          require(['@views/analyze/income-analyze.vue'], resolve)
         }
       },
     ]

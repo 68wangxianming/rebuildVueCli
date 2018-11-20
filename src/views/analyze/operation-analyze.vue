@@ -1,12 +1,12 @@
 <template>
-    <div class="index">
-      name: "rule-set"
-    </div>
+  <div>
+    operation-analyze
+  </div>
 </template>
 
 <script>
     export default {
-
+        name: "operation-analyze"
     }
 </script>
 

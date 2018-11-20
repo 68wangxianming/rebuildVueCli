@@ -25,7 +25,7 @@
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="用户名"><span>{{ props.row.email }}</span></el-form-item>
                 <el-form-item label="姓名"><span>{{ props.row.name }}</span></el-form-item>
-                <el-form-item label="角色"><span>{{ props.row.roleName }}</span></el-form-item>
+                <el-form-item label="角色"><span>{{ props.row.roleInfo.name }}</span></el-form-item>
                 <el-form-item label="状态"><span>{{ props.row.status }}</span></el-form-item>
                 <el-form-item label="创建时间"><span>{{ props.row.createTime }}</span></el-form-item>
                 <el-form-item label="更新时间"><span>{{ props.row.updateTime }}</span></el-form-item>
@@ -34,12 +34,14 @@
           </el-table-column>
           <el-table-column label="用户名" prop="email"></el-table-column>
           <el-table-column label="姓名" prop="name"></el-table-column>
-          <el-table-column label="角色" prop="roleName"></el-table-column>
+          <el-table-column label="角色" prop="roleInfo.name"></el-table-column>
           <el-table-column label="状态" prop="status"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)"
+                         v-if="scope.row.id!= 1">删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -74,16 +76,13 @@
         <el-form-item label="密码" prop="password">
           <el-input v-model="form.password" size="small" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="form.mobile" size="small"></el-input>
-        </el-form-item>
         <el-form-item label="角色">
-          <el-select v-model="value1" placeholder="请选择活动区域" size="small">
+          <el-select v-model="value1" placeholder="请选择活动区域" size="small" :disabled="adminEditStatus">
             <el-option :label="item.name" :key="item.value" :value="item.id" v-for="item in options1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="value2" placeholder="请选择活动区域" size="small">
+          <el-select v-model="value2" placeholder="请选择活动区域" size="small" :disabled="adminEditStatus">
             <el-option :label="item.label" :key="item.value" :value="item.value" v-for="item in options2"></el-option>
           </el-select>
         </el-form-item>
@@ -125,20 +124,17 @@
           password: [
             {required: true, message: '密码不能为空', trigger: 'blur'}
           ],
-          mobile: [
-            {required: true, message: '手机号不能为空', trigger: 'blur'}
-          ]
         },
         form: {
           id: '',
           email: '',
           name: '',
-          mobile: '',
           password: '',
           roleId: '',
           roleName: '',
           status: '',
         },
+        adminEditStatus: false
       }
     },
     created() {
@@ -181,11 +177,11 @@
       },
       addNew() {
         this.showPopUp = true
+        this.rules.password[0].required = true;
         this.form = {
           id: '',
           email: '',
           name: '',
-          mobile: '',
           password: '',
           roleId: '',
           roleName: '',
@@ -215,9 +211,17 @@
         });
       },
       handleEdit(index, row) {
+        row.password = ''
+        this.rules.password[0].required = false;
         this.getRoleList()
         this.value1 = row.roleId
+        this.value2 = row.status
         this.form = row
+        if (row.id == '1') {
+          this.adminEditStatus = true
+        } else {
+          this.adminEditStatus = false
+        }
         this.showPopUp = true
       },
       saveForm() {
@@ -228,10 +232,9 @@
                 id: this.form.id,
                 email: this.form.email, //用户名/邮箱
                 name: this.form.name, //姓名
-                mobile: this.form.mobile, //手机号
                 password: this.form.password,
                 roleId: this.value1,
-                status: this.value2,
+                status: this.$Func.returnUserStatusNum(this.value2),
               };
               //修改用户
               this.$api.sendRequest('updateAdmin', para).then(res => {
@@ -252,7 +255,6 @@
               let para = {
                 email: this.form.email, //用户名/邮箱
                 name: this.form.name, //姓名
-                mobile: this.form.mobile, //手机号
                 password: this.form.password,
                 roleId: this.value1,
                 status: this.value2,
@@ -277,19 +279,26 @@
         })
       },
       handleDelete(index, row) {
-        let para = {
-          adminId: row.id
-        }
-        this.$api.sendRequest('deleteAdmin', para).then(res => {
-          if (res.code == 200) {
-            this.$message({
-              message: 'success',
-              type: 'success'
-            });
-            this.getAdminList()
-          } else {
-            this.$message.error('fail');
-          }
+        this.$confirm('此操作将删除用户是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.sendRequest("deleteAdmin", {adminId: row.id}).then(res => {
+            if (res.code == 200) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              this.getAdminList()
+            }
+          }).catch(e => {
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
         });
       },
     },

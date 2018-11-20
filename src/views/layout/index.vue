@@ -9,61 +9,49 @@
                text-color="#fff"
                active-text-color="#ffd04b"
                router>
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>系统管理</span>
-          </template>
-          <el-menu-item index="user-role">用户与角色</el-menu-item>
-          <el-menu-item index="rule-set">参数与规则</el-menu-item>
-          <el-menu-item index="cost-set">费用设置</el-menu-item>
-          <el-menu-item index="sort-set">短信设置</el-menu-item>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-menu"></i>
-            <span>借款管理</span>
-          </template>
-          <el-menu-item index="2-1">用户与角色</el-menu-item>
-          <el-menu-item index="2-2">参数与规则</el-menu-item>
-          <el-menu-item index="2-3">费用设置</el-menu-item>
-          <el-menu-item index="2-4">短信设置</el-menu-item>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-document"></i>
-            <span>借款管理</span>
-          </template>
-          <el-menu-item index="3-1">用户与角色</el-menu-item>
-          <el-menu-item index="3-2">参数与规则</el-menu-item>
-          <el-menu-item index="3-3">费用设置</el-menu-item>
-          <el-menu-item index="3-4">短信设置</el-menu-item>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title">
-            <i class="el-icon-setting"></i>
-            <span>借款列表</span>
-          </template>
-          <el-menu-item index="4-1">用户与角色</el-menu-item>
-          <el-menu-item index="4-2">参数与规则</el-menu-item>
-          <el-menu-item index="4-3">费用设置</el-menu-item>
-          <el-menu-item index="4-4">短信设置</el-menu-item>
-        </el-submenu>
+
+        <!--<el-submenu index="1">-->
+          <!--<template slot="title">-->
+            <!--<i class="el-icon-location"></i>-->
+            <!--<span>系统管理</span>-->
+          <!--</template>-->
+          <!--<el-menu-item index="user-role">用户与角色</el-menu-item>-->
+          <!--<el-menu-item index="params-rules">参数与规则</el-menu-item>-->
+          <!--<el-menu-item index="cost-set">费用设置</el-menu-item>-->
+          <!--<el-menu-item index="notify-set">通知设置</el-menu-item>-->
+        <!--</el-submenu>-->
+        <!--<el-submenu index="2">-->
+          <!--<template slot="title">-->
+            <!--<i class="el-icon-menu"></i>-->
+            <!--<span>借款管理</span>-->
+          <!--</template>-->
+          <!--<el-menu-item index="loan-user-manage">借款用户管理</el-menu-item>-->
+          <!--<el-menu-item index="loan-order-manage">借款订单管理</el-menu-item>-->
+        <!--</el-submenu>-->
+        <!--<el-submenu index="3">-->
+          <!--<template slot="title">-->
+            <!--<i class="el-icon-document"></i>-->
+            <!--<span>统计管理</span>-->
+          <!--</template>-->
+          <!--<el-menu-item index="operation-analyze">业务统计</el-menu-item>-->
+          <!--<el-menu-item index="income-analyze">收益统计</el-menu-item>-->
+        <!--</el-submenu>-->
+        <NavMenu :nav-menus="authList"></NavMenu>
       </el-menu>
     </div>
     <div class="layout-right">
       <div class="layout-nav">
         <i @click="shrink" id="shrink" class="iconfont icon-fold topfont" style=""></i>
-        <el-dropdown class="righticon">
+        <el-dropdown class="righticon" @command="handleCommand">
           <span class="el-dropdown-link">
             <i class="iconfont icon-user-o topfont "></i>
-            Admin
+            {{userName}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人信息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
-            <el-dropdown-item>重置密码</el-dropdown-item>
+            <el-dropdown-item command="resetPassword">重置密码</el-dropdown-item>
             <el-dropdown-item>退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -87,29 +75,42 @@
         <transition name="move" mode="out-in">
           <router-view style="min-height: 100%;"></router-view>
         </transition>
-
       </div>
     </div>
+
+    <ChangePassword :showChangePassword="showChangePassword" @closePopup="closePopup" @saveForm="saveForm"
+                    @beforeClose="beforeClose"></ChangePassword>
   </div>
 </template>
 
 <script>
   import NavBar from './NavBar.vue'
   import screenfull from 'screenfull'
+  import ChangePassword from '../../components/changePassword.vue'
+  import NavMenu from '../../components/navMenu.vue'
 
   export default {
     data() {
       return {
+        showChangePassword: false,
         isCollapse: false,
         isFullscreen: false,
         switchTabBar: true,
         fixedTabBar: true,
+        authList:[],
+        userName:''
       };
     },
     created() {
-      this.nowDate = new Date();
+      this.getAdminAuth()
+      this.userName = localStorage.getItem("adminInfo") && JSON.parse(localStorage.getItem("adminInfo")).name || 'Admin';
     },
     methods: {
+      getAdminAuth() {
+        this.$api.sendRequest('getAdminAuth').then(res=>{
+          this.authList = res.data.authList
+        })
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
@@ -132,11 +133,27 @@
           return false
         }
         screenfull.toggle()
+      },
+      handleCommand(command) {
+        if (command == 'resetPassword') {
+          this.showChangePassword = true
+        }
+      },
+      closePopup() {
+        this.showChangePassword = false
+      },
+      saveForm() {
+
+      },
+      beforeClose() {
+        this.showChangePassword = false
       }
 
     },
     components: {
       NavBar,
+      ChangePassword,
+      NavMenu
     }
   }
 </script>
@@ -185,7 +202,7 @@
           margin-right: 25px;
         }
       }
-      .layout-content{
+      .layout-content {
         position: relative;
         margin: 8px;
         min-height: calc(100vh - 120px);
