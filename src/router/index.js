@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import routes from './map';
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.use(Router);
 
@@ -28,8 +30,13 @@ router.beforeEach(({matched}, from, next) => {
   matched
     .filter(({meta}) => meta.title)
     .map(({meta}) => document.title = meta.title)
+  NProgress.start();
   next()
 })
+
+router.afterEach(transition => {
+  NProgress.done();
+});
 
 Vue.router = router
 

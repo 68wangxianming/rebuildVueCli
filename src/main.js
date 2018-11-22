@@ -11,6 +11,7 @@ import './assets/icon/iconfont.css'
 import './assets/css/rest.css'
 import Function from './plugins/index'
 
+
 Vue.prototype.$Func = Function
 
 Vue.use(ElementUI);

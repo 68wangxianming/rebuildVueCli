@@ -36,5 +36,4 @@ export const notice = {
   '${expire_time}': '到期时间',
   '${forfeit}': '罚金',
   '${repayment_time}': '还款时间',
-
 }

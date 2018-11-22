@@ -1,16 +1,12 @@
 import Vue from 'vue'
 import store from "../store/store.js";
-
 // const baseUrl = (location.host != 'www.rupiahone.com' ? 'https://lendingone.yuanstar.com/adminapi/' : '/api/')
 const baseUrl = (location.host != 'www.rupiahone.com' ? 'http://admin-api.dev.yuanstar.com' : '/api/')
 
-
 let config = {
   _beforeHttpFunc: function (para, headers) {
-
     store.dispatch("FLASH_ADMIN_TOKEN")
     store.state.adminToken && (headers = {Authorization: 'Bearer ' + store.state.adminToken, ...headers});
-
     if (para instanceof FormData)
       return {para, headers};
     para = Object.assign({}, {appId: 'yue'}, para)
@@ -19,7 +15,7 @@ let config = {
 
   _afterHttpFunc: function (res) {
     if (res.code != '200') {
-      Vue.prototype.$alert(res.msg || (res.error&& res.error.msg) || "网络异常");
+      Vue.prototype.$alert(res.msg || (res.error && res.error.msg) || "网络异常");
       return null;
     }
     return res;
@@ -33,24 +29,24 @@ let config = {
   addAdmin: {method: 'post', url: '/api/addAdmin'},
   deleteAdmin: {method: 'delete', url: '/api/deleteAdmin'},
   getAuthTree: {method: 'get', url: '/api/getAuthTree'},
-  saveRole:{method:'post',url:'/api/saveRole'},
-  removeRole:{method:'delete',url:'/api/removeRole'},
-  getAdminAuth:{method:'get',url:'/api/getAdminAuth'},
-  getSysConfig:{method:'get',url:'/api/getSysConfig'},
-  saveSysConfig:{method:'post',url:'/api/saveSysConfig'},
-  removeSysConfig:{method:'get',url:'/api/removeSysConfig'},
-  getRejectConfig:{method:'get',url:'/api/getRejectConfig'},
-  saveRejectConfig:{method:'post',url:'/api/saveRejectConfig'},
-  removeRejectConfig:{method:'delete',url:'/api/removeRejectConfig'},
-  getFeeTemplate:{method:'get',url:'/api/getFeeTemplate'},
-  saveFeeTemplate:{method:'post',url:'/api/saveFeeTemplate'},
-  removeFeeTemplate:{method:'delete',url:'/api/removeFeeTemplate'},
-  getProductConfig:{method:'get',url:'/api/getProductConfig'},
-  saveProductConfig:{method:'post',url:'/api/saveProductConfig'},
-  getNotifyType:{method:'get',url:'/api/getNotifyType'},
-  saveNotifyTemplate:{method:'post',url:'/api/saveNotifyTemplate'},
-  getNotifyTemplate:{method:'get',url:'/api/getNotifyTemplate'},
-  removeNotifyTemplate:{method:'delete',url:'/api/removeNotifyTemplate'},
+  saveRole: {method: 'post', url: '/api/saveRole'},
+  removeRole: {method: 'delete', url: '/api/removeRole'},
+  getAdminAuth: {method: 'get', url: '/api/getAdminAuth'},
+  getSysConfig: {method: 'get', url: '/api/getSysConfig'},
+  saveSysConfig: {method: 'post', url: '/api/saveSysConfig'},
+  removeSysConfig: {method: 'get', url: '/api/removeSysConfig'},
+  getRejectConfig: {method: 'get', url: '/api/getRejectConfig'},
+  saveRejectConfig: {method: 'post', url: '/api/saveRejectConfig'},
+  removeRejectConfig: {method: 'delete', url: '/api/removeRejectConfig'},
+  getFeeTemplate: {method: 'get', url: '/api/getFeeTemplate'},
+  saveFeeTemplate: {method: 'post', url: '/api/saveFeeTemplate'},
+  removeFeeTemplate: {method: 'delete', url: '/api/removeFeeTemplate'},
+  getProductConfig: {method: 'get', url: '/api/getProductConfig'},
+  saveProductConfig: {method: 'post', url: '/api/saveProductConfig'},
+  getNotifyType: {method: 'get', url: '/api/getNotifyType'},
+  saveNotifyTemplate: {method: 'post', url: '/api/saveNotifyTemplate'},
+  getNotifyTemplate: {method: 'get', url: '/api/getNotifyTemplate'},
+  removeNotifyTemplate: {method: 'delete', url: '/api/removeNotifyTemplate'},
 }
 
 Object.keys(config).forEach(v => config[v].url = baseUrl + config[v].url);

@@ -26,7 +26,6 @@ export const notice = {
   EXPIRE_REMIND: '到期提醒',
   OVERDUE_REMIND: '逾期提醒',
   REPAYMENT: '还款成功',
-
   '${captcha}': '验证码',
   '${app_name}': '平台名称',
   '${captcha_time_limit}': '验证码有效时间',

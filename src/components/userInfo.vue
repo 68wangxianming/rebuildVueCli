@@ -19,7 +19,7 @@
     </div>
     <div class="content">
       <template>
-        <el-table :data="userData" style="width: 99%;" size="medium">
+        <el-table :data="userData" style="width: 99%;" size="medium" v-loading="loading">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
@@ -97,6 +97,7 @@
   export default {
     data() {
       return {
+        loading: false,
         showPopUp: false,
         email: '',
         name: '',
@@ -148,7 +149,7 @@
           currentPage: this.currentPage,
           perPage: this.perPage,
         };
-        this.$api.sendRequest('getAdminList', para).then(res => {
+        this.$api.sendRequest('getAdminList', para, {}, true, "loading", this).then(res => {
           if (res.code == 200) {
             let data = res.data;
             data.items.forEach((v) => {

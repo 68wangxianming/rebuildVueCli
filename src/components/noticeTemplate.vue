@@ -1,8 +1,6 @@
 <template>
   <div class="userInfo">
     <div class="search">
-      <el-button type="primary" size="small" @click="getNotifyType">查询</el-button>
-      <el-button type="primary" size="small" @click="empty">清空</el-button>
       <el-button type="primary" size="small" @click="addNew">新增</el-button>
     </div>
     <div class="content">
@@ -120,7 +118,6 @@
         this.$api.sendRequest('getNotifyTemplate', para).then(res => {
           if (res.code == 200) {
             let data = res.data;
-            console.log(data);
             data.items.forEach((v) => {
               v._updateTime = this.$Func.timeConversion(v.updateTime)
               v._msgStatus = v.msgStatus && '开启' || '关闭'
@@ -165,9 +162,6 @@
       handleCurrentChange(val) {
         this.currentPage = val
         this.getNotifyTemplate()
-      },
-      empty() {
-        this.tempNo = "";
       },
       addNew() {
         this.textarea = ''

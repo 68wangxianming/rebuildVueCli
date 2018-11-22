@@ -14,7 +14,10 @@ class NetworkHandler {
     config && Object.keys(config).forEach(k => networkMaps.set(k, config[k]));
   }
 
-  async sendRequest(key, para, headers = {}) {
+  async sendRequest(key, para, headers = {},needLoading=false,loadingField=undefined,VueObject) {
+
+    needLoading && (VueObject[loadingField]=true);
+
     if (!key || !networkMaps.has(key)) {
       console.error('no such network key :' + key);
       return undefined;
@@ -59,6 +62,8 @@ class NetworkHandler {
         error: e
       }
     }
+
+    needLoading && (VueObject[loadingField]=false);
 
     return this._afterHttpFunc(res);
 
