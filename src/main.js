@@ -27,7 +27,6 @@ const i18n = new VueI18n({
 })
 
 
-
 new Vue({
   router,
   i18n,

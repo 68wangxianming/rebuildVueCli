@@ -40,5 +40,18 @@ export default {
     }else {
       return str
     }
-  }
+  },
+  //还款方式
+  returnPayMoneyStatus(num) {
+    let arr = ['一次性','分期付']
+    return arr[num]
+  },
+  returnPayMoneyNum(str) {
+    if(str.length>1) {
+      let arr = ['一次性','分期付']
+      return arr.indexOf(str)
+    }else {
+      return str
+    }
+  },
 }

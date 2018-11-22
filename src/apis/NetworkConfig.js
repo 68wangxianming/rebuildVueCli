@@ -42,9 +42,15 @@ let config = {
   getRejectConfig:{method:'get',url:'/api/getRejectConfig'},
   saveRejectConfig:{method:'post',url:'/api/saveRejectConfig'},
   removeRejectConfig:{method:'delete',url:'/api/removeRejectConfig'},
-
-
-
+  getFeeTemplate:{method:'get',url:'/api/getFeeTemplate'},
+  saveFeeTemplate:{method:'post',url:'/api/saveFeeTemplate'},
+  removeFeeTemplate:{method:'delete',url:'/api/removeFeeTemplate'},
+  getProductConfig:{method:'get',url:'/api/getProductConfig'},
+  saveProductConfig:{method:'post',url:'/api/saveProductConfig'},
+  getNotifyType:{method:'get',url:'/api/getNotifyType'},
+  saveNotifyTemplate:{method:'post',url:'/api/saveNotifyTemplate'},
+  getNotifyTemplate:{method:'get',url:'/api/getNotifyTemplate'},
+  removeNotifyTemplate:{method:'delete',url:'/api/removeNotifyTemplate'},
 }
 
 Object.keys(config).forEach(v => config[v].url = baseUrl + config[v].url);
