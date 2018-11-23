@@ -56,6 +56,13 @@ export default {
         }
       },
       {
+        meta: ['借款管理', '借款详情'],
+        path: 'loan-details',
+        component: (resolve) => {
+          require(['@views/loan/loan-details.vue'], resolve)
+        }
+      },
+      {
         meta: ['统计管理', '业务统计'],
         path: 'operation-analyze',
         component: (resolve) => {

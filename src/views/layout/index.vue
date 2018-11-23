@@ -41,7 +41,7 @@
     </div>
     <div class="layout-right">
       <div class="layout-nav">
-        <i @click="shrink" id="shrink" class="iconfont icon-fold topfont" style=""></i>
+        <!--<i @click="shrink" id="shrink" class="iconfont icon-fold topfont" style=""></i>-->
         <el-dropdown class="righticon" @command="handleCommand">
           <span class="el-dropdown-link">
             <i class="iconfont icon-user-o topfont "></i>

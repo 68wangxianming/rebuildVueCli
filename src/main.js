@@ -10,14 +10,21 @@ import VueI18n from 'vue-i18n'
 import './assets/icon/iconfont.css'
 import './assets/css/rest.css'
 import Function from './plugins/index'
+import Viewer from 'v-viewer'
+import 'viewerjs/dist/viewer.css'
 
-
+Vue.config.productionTip = false;//作用是阻止 vue 在启动时生成生产提示
 Vue.prototype.$Func = Function
 
 Vue.use(ElementUI);
 Vue.use(NetworkHandler, NetworkConfig);
 Vue.use(VueI18n)
-Vue.config.productionTip = false;//作用是阻止 vue 在启动时生成生产提示
+Vue.use(Viewer, {
+  defaultOptions: {
+    zIndex: 9999
+  }
+})
+
 console.log("Running App version " + CONSTANTS.APP_VERSION);
 const i18n = new VueI18n({
   locale: 'en',  // 语言标识
@@ -26,7 +33,6 @@ const i18n = new VueI18n({
     'en': require('./language/en')
   }
 })
-
 
 new Vue({
   router,

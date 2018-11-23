@@ -5,7 +5,7 @@
     </div>
     <div class="content">
       <template>
-        <el-table :data="userData" style="width: 99%;" size="medium">
+        <el-table :data="userData" style="width: 99%;" size="medium" v-loading="loading">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
@@ -90,6 +90,7 @@
   export default {
     data() {
       return {
+        loading: false,
         showPopUp: false,
         tempNo: '',
         userData: [],
@@ -115,14 +116,13 @@
           currentPage: this.currentPage,
           perPage: this.perPage,
         };
-        this.$api.sendRequest('getNotifyTemplate', para).then(res => {
+        this.$api.sendRequest('getNotifyTemplate', para, {}, true, "loading", this).then(res => {
           if (res.code == 200) {
             let data = res.data;
             data.items.forEach((v) => {
               v._updateTime = this.$Func.timeConversion(v.updateTime)
               v._msgStatus = v.msgStatus && '开启' || '关闭'
               v._smsStatus = v.smsStatus && '开启' || '关闭'
-
             })
             this.totalPage = data.pagination.totalCount;
             this.userData = data.items;
@@ -279,7 +279,7 @@
     .el-input {
       width: 250px;
     }
-    .search .el-button{
+    .search .el-button {
       padding: 8px 20px;
     }
     .el-tag {

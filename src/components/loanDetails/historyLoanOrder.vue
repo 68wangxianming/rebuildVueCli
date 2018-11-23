@@ -1,61 +1,31 @@
 <template>
   <div class="userInfo">
-    <div class="search">
-      <div class="item">
-        <el-input size="small" placeholder="电话" suffix-icon="el-icon-date" v-model="email"></el-input>
-      </div>
-      <div class="item">
-        <el-input size="small" placeholder="身份证" suffix-icon="el-icon-date" v-model="email"></el-input>
-      </div>
-      <div class="item">
-      </div>
-      <div class="item">
-        <el-select v-model="value2" placeholder="请选择" size="small">
-          <el-option
-            v-for="item in options2"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </div>
-      <div class="item">
-        <el-button type="primary" size="small" @click="getAdminList">查询</el-button>
-      </div>
-      <div class="item">
-        <el-button type="primary" size="small" @click="empty">清空</el-button>
-      </div>
-      <div class="item">
-        <el-button type="primary" size="small">导出Excel</el-button>
-      </div>
-
-    </div>
     <div class="content">
       <template>
         <el-table :data="userData" style="width: 99%;" size="medium" v-loading="loading">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="用户名"><span>{{ props.row.email }}</span></el-form-item>
+                <el-form-item label="借款订单ID"><span>{{ props.row.email }}</span></el-form-item>
                 <el-form-item label="姓名"><span>{{ props.row.name }}</span></el-form-item>
-                <el-form-item label="角色"><span>{{ props.row.roleInfo.name }}</span></el-form-item>
-                <el-form-item label="状态"><span>{{ props.row.status }}</span></el-form-item>
-                <el-form-item label="创建时间"><span>{{ props.row.createTime }}</span></el-form-item>
-                <el-form-item label="更新时间"><span>{{ props.row.updateTime }}</span></el-form-item>
+                <el-form-item label="申请时间"><span>{{ props.row.roleInfo.name }}</span></el-form-item>
+                <el-form-item label="申请金额"><span>{{ props.row.status }}</span></el-form-item>
+                <el-form-item label="申请期限"><span>{{ props.row.createTime }}</span></el-form-item>
+                <el-form-item label="借款状态"><span>{{ props.row.createTime }}</span></el-form-item>
+                <el-form-item label="客户状态"><span>{{ props.row.updateTime }}</span></el-form-item>
+                <el-form-item label="拒绝类型"><span>{{ props.row.updateTime }}</span></el-form-item>
+                <el-form-item label="备注"><span>{{ props.row.updateTime }}</span></el-form-item>
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column label="用户ID" prop="email"></el-table-column>
+          <el-table-column label="借款订单ID" prop="email"></el-table-column>
           <el-table-column label="姓名" prop="name"></el-table-column>
-          <el-table-column label="手机号" prop="roleInfo.name"></el-table-column>
-          <el-table-column label="状态" prop="status"></el-table-column>
-          <el-table-column label="是否绑卡" prop="status"></el-table-column>
+          <el-table-column label="申请时间" prop="roleInfo.name"></el-table-column>
+          <el-table-column label="申请金额" prop="status"></el-table-column>
+          <el-table-column label="申请期限" prop="status"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)"
-                         v-if="scope.row.id!= 1">删除
-              </el-button>
+              <el-button size="mini" type="primary" @click="handleDelete(scope.$index, scope.row)">详情</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -87,22 +57,10 @@
       return {
         loading: false,
         showPopUp: false,
-        email: '',
-        name: '',
         userData: [],
         currentPage: 1,
         perPage: 10,
         totalPage: null,
-        options1: [],
-        value1: '',
-        options2: [{
-          value: '0',
-          label: '禁用'
-        }, {
-          value: '1',
-          label: '正常'
-        }],
-        value2: '1',
       }
     },
     created() {
@@ -139,44 +97,36 @@
         this.currentPage = val
         this.getAdminList()
       },
-      empty() {
-        this.email = "";
-        this.name = "";
-      },
-
-      handleEdit(index, row) {
-      },
-      saveForm() {
-      },
       handleDelete(index, row) {
-      }
+        this.$confirm('此操作将删除用户是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.sendRequest("deleteAdmin", {adminId: row.id}).then(res => {
+            if (res.code == 200) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              this.getAdminList()
+            }
+          }).catch(e => {
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
     },
-    components: {}
   }
 </script>
 
 <style scoped lang="less">
   .userInfo {
-    padding: 8px;
-    .search {
-      display: flex;
-      justify-content: flex-start;
-      flex-wrap:wrap;
-      padding-bottom: 20px;
-      .item{
-        margin: 8px 12px;
-        .el-input {
-          width: 200px;
-        }
-        .el-select{
-          width: 200px;
-        }
-        .el-button {
-          letter-spacing: 2px;
-        }
-      }
-
-    }
+    margin-top: 20px;
     .content {
       .block {
         text-align: right;
@@ -195,6 +145,11 @@
       margin-right: 0;
       margin-bottom: 0;
       width: 50%;
+    }
+    .addNew {
+      .el-input {
+        width: 250px;
+      }
     }
   }
 </style>

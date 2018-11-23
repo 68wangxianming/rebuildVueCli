@@ -5,7 +5,7 @@
     </div>
     <div class="content">
       <template>
-        <el-table :data="roleData" border style="width: 99%;">
+        <el-table :data="roleData" border style="width: 99%;" v-loading="loading">
           <el-table-column prop="name" label="角色名称" align="center"></el-table-column>
           <el-table-column prop="description" label="角色描述" align="center"></el-table-column>
           <el-table-column label="操作" align="center">
@@ -63,6 +63,7 @@
   export default {
     data() {
       return {
+        loading: false,
         showPopUp: false,
         currentPage: 1,
         perPage: 10,
@@ -108,7 +109,7 @@
           currentPage: this.currentPage,
           perPage: this.perPage,
         };
-        this.$api.sendRequest('getRoleList', para).then(res => {
+        this.$api.sendRequest('getRoleList', para, {}, true, "loading", this).then(res => {
           if (res.code == 200) {
             let data = res.data;
             this.totalPage = data.pagination.totalCount;
@@ -136,7 +137,9 @@
         done && done();
       },
       handleCheckChange(node, tree) {
-        this.roleModel.authList = tree.checkedKeys.join('|')
+        console.log('======checkedKeys',tree.checkedKeys);
+        console.log('====treee',tree);
+        this.roleModel.authList = [...tree.halfCheckedKeys,...tree.checkedKeys].join('|')
       },
       //打开编辑/新增角色弹窗
       openRoleModelDialog(role) {
