@@ -14,8 +14,8 @@
 </template>
 
 <script>
-  import CostTemplate from '../../components/costTemplate.vue'
-  import ProductDescription from '../../components/productDescription.vue'
+  import CostTemplate from '../../components/costSet/costTemplate.vue'
+  import ProductDescription from '../../components/costSet/productDescription.vue'
 
   export default {
     data() {

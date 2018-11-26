@@ -19,14 +19,21 @@
           </el-option>
         </el-select>
       </div>
+      <div class="block item">
+        <el-date-picker
+          size="small"
+          v-model="value4"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+      </div>
       <div class="item">
         <el-button type="primary" size="small" @click="getAdminList">查询</el-button>
       </div>
       <div class="item">
         <el-button type="primary" size="small" @click="empty">清空</el-button>
-      </div>
-      <div class="item">
-        <el-button type="primary" size="small">导出Excel</el-button>
       </div>
 
     </div>
@@ -103,6 +110,7 @@
           label: '正常'
         }],
         value2: '1',
+        value4: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
       }
     },
     created() {

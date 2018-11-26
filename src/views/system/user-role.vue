@@ -14,8 +14,8 @@
 </template>
 
 <script>
-  import UserInfo from '../../components/userInfo.vue'
-  import RoleSet from '../../components/roleSet.vue'
+  import UserInfo from '../../components/userRole/userInfo.vue'
+  import RoleSet from '../../components/userRole/roleSet.vue'
 
   export default {
     data() {

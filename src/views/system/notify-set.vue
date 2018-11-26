@@ -14,13 +14,13 @@
 </template>
 
 <script>
-  import NoticeTemplate from '../../components/noticeTemplate.vue'
-  import ProductDescription from '../../components/productDescription.vue'
+  import NoticeTemplate from '../../components/notifySet/noticeTemplate.vue'
+  import ProductDescription from '../../components/notifySet/smsService.vue'
 
   export default {
     data() {
       return {
-        activeName: 'first',
+        activeName: 'second',
       };
     },
     methods: {

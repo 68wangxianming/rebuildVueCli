@@ -30,28 +30,47 @@ export default {
   },
   //用户状态
   returnUserStatus(num) {
-    let arr = ['禁用','正常']
+    let arr = ['禁用', '正常']
     return arr[num]
   },
   returnUserStatusNum(str) {
-    if(str.length>1) {
-      let arr = ['禁用','正常']
+    if (str.length > 1) {
+      let arr = ['禁用', '正常']
       return arr.indexOf(str)
-    }else {
+    } else {
       return str
     }
   },
   //还款方式
   returnPayMoneyStatus(num) {
-    let arr = ['一次性','分期付']
+    let arr = ['一次性', '分期付']
     return arr[num]
   },
   returnPayMoneyNum(str) {
-    if(str.length>1) {
-      let arr = ['一次性','分期付']
+    if (str.length > 1) {
+      let arr = ['一次性', '分期付']
       return arr.indexOf(str)
-    }else {
+    } else {
       return str
     }
   },
+  //短信服务商启用状态
+  returnSmsNum(str) {
+    if (str.length > 1) {
+      let arr = ['禁用', '启用']
+      return arr.indexOf(str)
+    } else {
+      return str
+    }
+  },
+  //认证流程状态
+  returnIdentifyStatus(num) {
+    let arr = ['未认证', '认证中', '认证成功', '认证失败']
+    return arr[num]
+  },
+  //是否黑名单
+  returnIsblackStatus(num) {
+    let arr = ['否', '是']
+    return arr[num]
+  }
 }

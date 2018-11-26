@@ -76,6 +76,13 @@ export default {
           require(['@views/analyze/income-analyze.vue'], resolve)
         }
       },
+      {
+        meta: ['借款详情', '电话催收'],
+        path: 'telephoneCollection',
+        component: (resolve) => {
+          require(['@components/loanDetails/telephoneCollection.vue'], resolve)
+        }
+      },
     ]
   },
 }

@@ -84,7 +84,7 @@
 </template>
 
 <script>
-  import AddPopup from './addPopup.vue'
+  import AddPopup from '../addPopup.vue'
 
   export default {
     data() {

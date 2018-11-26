@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from "../store/store.js";
 // const baseUrl = (location.host != 'www.rupiahone.com' ? 'https://lendingone.yuanstar.com/adminapi/' : '/api/')
 const baseUrl = (location.host != 'www.rupiahone.com' ? 'http://admin-api.dev.yuanstar.com' : '/api/')
+Vue.prototype.$baseUrl = baseUrl
 
 let config = {
   _beforeHttpFunc: function (para, headers) {
@@ -47,7 +48,16 @@ let config = {
   saveNotifyTemplate: {method: 'post', url: '/api/saveNotifyTemplate'},
   getNotifyTemplate: {method: 'get', url: '/api/getNotifyTemplate'},
   removeNotifyTemplate: {method: 'delete', url: '/api/removeNotifyTemplate'},
+  getSmsConfig: {method: 'get', url: '/api/getSmsConfig'},
+  saveSmsConfig: {method: 'post', url: '/api/saveSmsConfig'},
+  getUser: {method: 'get', url: '/api/getUser'},
+  exportUser: {method: 'get', url: '/api/exportUser'},
+  forbiddenUser: {method: 'get', url: '/api/forbiddenUser'},//禁用
+  enableUser: {method: 'get', url: '/api/enableUser'},//启用
+  blockUser: {method: 'get', url: '/api/blockUser'},
+  unblockUser: {method: 'get', url: '/api/unblockUser'},
 }
 
 Object.keys(config).forEach(v => config[v].url = baseUrl + config[v].url);
 export default config
+

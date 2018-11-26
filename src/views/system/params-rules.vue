@@ -14,8 +14,8 @@
 </template>
 
 <script>
-  import ParamsSet from '../../components/paramsSet.vue'
-  import RefuseType from '../../components/refuseType.vue'
+  import ParamsSet from '../../components/paramsRules/paramsSet.vue'
+  import RefuseType from '../../components/paramsRules/RefuseType.vue'
 
   export default {
     data() {
