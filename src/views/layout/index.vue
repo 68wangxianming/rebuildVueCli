@@ -159,20 +159,30 @@
         this.$i18n.locale = 'en-US'
         window.localStorage.setItem('language', 'en-US')
         locale.use(enLocale)
-        setTimeout(()=>{
+        setTimeout(() => {
           this.$router.go(0);
           this.loading = false
-        },1000)
+        }, 500)
       },
       chineseChange() {
+        this.loading = true
         this.$i18n.locale = 'zh-CN'
         window.localStorage.setItem('language', 'zh-CN')
         locale.use(zhLocale)
+        setTimeout(() => {
+          this.$router.go(0);
+          this.loading = false
+        }, 500)
       },
       idChange() {
+        this.loading = true
         this.$i18n.locale = 'id-US'
         window.localStorage.setItem('language', 'id-US')
         locale.use(idLocale)
+        setTimeout(() => {
+          this.$router.go(0);
+          this.loading = false
+        }, 500)
       }
 
     },

@@ -10,9 +10,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 // const DashboardPlugin = require('webpack-dashboard/plugin');//打包完小窗展示"dev": "webpack-dashboard -- node index.js"
 const setTitle = require('node-bash-title');
 setTitle('🍎🍎🍎🍎🍎 rebuildVueCli');
-const loading = {
-  html: '<div style="color: red;text-align: center;font-size: 32px;line-height: 50px;">loading......</div>'
-}
+
 
 module.exports = {
   entry: './src/main.js',
@@ -96,8 +94,7 @@ module.exports = {
       minify: { // 压缩 HTML 的配置
         minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
         minifyJS: true // 压缩 HTML 中出现的 JS 代码
-      },
-      loading
+      }
     }),
     new WebpackBuildNotifierPlugin({
       title: "大爷！包打好了",
