@@ -80,10 +80,10 @@
                          v-if="scope.row.status!= 1">启用
               </el-button>
               <el-button size="mini" type="danger" @click="blockUser(scope.$index, scope.row)"
-                         v-if="scope.row.isBlack== 1">拉黑
+                         v-if="scope.row.isBlack!= 1">拉黑
               </el-button>
               <el-button size="mini" type="danger" @click="unblockUser(scope.$index, scope.row)"
-                         v-if="scope.row.isBlack!= 1">取消拉黑
+                         v-if="scope.row.isBlack== 1">取消拉黑
               </el-button>
             </template>
           </el-table-column>

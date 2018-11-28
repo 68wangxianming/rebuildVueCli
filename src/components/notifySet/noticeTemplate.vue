@@ -10,6 +10,7 @@
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="模板ID"><span>{{ props.row.id }}</span></el-form-item>
+                <el-form-item label="模板标题"><span>{{ props.row.title }}</span></el-form-item>
                 <el-form-item label="模板内容"><span>{{ props.row.content }}</span></el-form-item>
                 <el-form-item label="是否开启站内信"><span>{{ props.row._msgStatus }}</span></el-form-item>
                 <el-form-item label="是否开启短信"><span>{{ props.row._smsStatus }}</span></el-form-item>
@@ -19,6 +20,7 @@
             </template>
           </el-table-column>
           <el-table-column label="模板ID" prop="id"></el-table-column>
+          <el-table-column label="模板标题" prop="title"></el-table-column>
           <el-table-column label="模板内容" prop="content"></el-table-column>
           <el-table-column label="是否开启站内信" prop="_msgStatus"></el-table-column>
           <el-table-column label="是否开启短信" prop="_smsStatus"></el-table-column>
@@ -51,6 +53,9 @@
     <AddPopup PopupTitle="新增/修改通知模版" :showPopUp="showPopUp" @saveForm="saveForm" @closePopup="closePopup"
               @before-close="beforeClose">
       <el-form label-width="80px">
+        <el-form-item label="模版标题">
+          <el-input v-model="title"></el-input>
+        </el-form-item>
         <el-form-item label="选择类型">
           <el-select v-model="value1" placeholder="" size="small" @change="typeChange">
             <el-option :label="$t(`notice.${item.name}`)" :key="item.id" :value="item.name"
@@ -90,6 +95,7 @@
   export default {
     data() {
       return {
+        title: '',
         loading: false,
         showPopUp: false,
         tempNo: '',
@@ -119,6 +125,7 @@
         this.$api.sendRequest('getNotifyTemplate', para, {}, true, "loading", this).then(res => {
           if (res.code == 200) {
             let data = res.data;
+            console.log(data);
             data.items.forEach((v) => {
               v._updateTime = this.$Func.timeConversion(v.updateTime)
               v._msgStatus = v.msgStatus && '开启' || '关闭'
@@ -169,13 +176,15 @@
         this.value3 = true
         this.id = null;
         this.showPopUp = true
+        this.title = ''
       },
       handleEdit(index, row) {
+        this.id = row.id
         this.textarea = row.content
         this.value2 = row.msgStatus && true || false;
         this.value3 = row.smsStatus && true || false;
         this.value1 = row.type
-        this.id = row.id
+        this.title = row.title
         this.tagList = this.notifyType.filter(v => v.name == this.value1)[0].allowedChars.split('|')
         this.showPopUp = true
       },
@@ -189,11 +198,12 @@
       saveForm() {
         this.$api.sendRequest('saveNotifyTemplate', {
           templateInfo: {
+            id: this.id,
+            title: this.title,
             msgStatus: this.value2 && 1 || 0,
             smsStatus: this.value3 && 1 || 0,
             content: this.textarea,
             type: this.value1,
-            id: this.id
           }
         }).then(res => {
           if (res.code == 200) {

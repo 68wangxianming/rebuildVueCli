@@ -83,6 +83,13 @@ export default {
           require(['@components/loanDetails/telephoneCollection.vue'], resolve)
         }
       },
+      {
+        meta: ['电核', '电核详情'],
+        path: 'telephoneDetails',
+        component: (resolve) => {
+          require(['@components/telephoneInterview/telephoneDetails.vue'], resolve)
+        }
+      },
     ]
   },
 }

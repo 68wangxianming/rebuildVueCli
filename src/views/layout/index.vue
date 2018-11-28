@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index" v-loading="loading">
     <div class="layout-left">
       <div class="logo">
         <span class="name">Management System</span>
@@ -11,30 +11,30 @@
                router>
 
         <!--<el-submenu index="1">-->
-          <!--<template slot="title">-->
-            <!--<i class="el-icon-location"></i>-->
-            <!--<span>系统管理</span>-->
-          <!--</template>-->
-          <!--<el-menu-item index="user-role">用户与角色</el-menu-item>-->
-          <!--<el-menu-item index="params-rules">参数与规则</el-menu-item>-->
-          <!--<el-menu-item index="cost-set">费用设置</el-menu-item>-->
-          <!--<el-menu-item index="notify-set">通知设置</el-menu-item>-->
+        <!--<template slot="title">-->
+        <!--<i class="el-icon-location"></i>-->
+        <!--<span>系统管理</span>-->
+        <!--</template>-->
+        <!--<el-menu-item index="user-role">用户与角色</el-menu-item>-->
+        <!--<el-menu-item index="params-rules">参数与规则</el-menu-item>-->
+        <!--<el-menu-item index="cost-set">费用设置</el-menu-item>-->
+        <!--<el-menu-item index="notify-set">通知设置</el-menu-item>-->
         <!--</el-submenu>-->
         <!--<el-submenu index="2">-->
-          <!--<template slot="title">-->
-            <!--<i class="el-icon-menu"></i>-->
-            <!--<span>借款管理</span>-->
-          <!--</template>-->
-          <!--<el-menu-item index="loan-user-manage">借款用户管理</el-menu-item>-->
-          <!--<el-menu-item index="loan-order-manage">借款订单管理</el-menu-item>-->
+        <!--<template slot="title">-->
+        <!--<i class="el-icon-menu"></i>-->
+        <!--<span>借款管理</span>-->
+        <!--</template>-->
+        <!--<el-menu-item index="loan-user-manage">借款用户管理</el-menu-item>-->
+        <!--<el-menu-item index="loan-order-manage">借款订单管理</el-menu-item>-->
         <!--</el-submenu>-->
         <!--<el-submenu index="3">-->
-          <!--<template slot="title">-->
-            <!--<i class="el-icon-document"></i>-->
-            <!--<span>统计管理</span>-->
-          <!--</template>-->
-          <!--<el-menu-item index="operation-analyze">业务统计</el-menu-item>-->
-          <!--<el-menu-item index="income-analyze">收益统计</el-menu-item>-->
+        <!--<template slot="title">-->
+        <!--<i class="el-icon-document"></i>-->
+        <!--<span>统计管理</span>-->
+        <!--</template>-->
+        <!--<el-menu-item index="operation-analyze">业务统计</el-menu-item>-->
+        <!--<el-menu-item index="income-analyze">收益统计</el-menu-item>-->
         <!--</el-submenu>-->
         <NavMenu :nav-menus="authList"></NavMenu>
       </el-menu>
@@ -61,8 +61,9 @@
                    <i class="iconfont icon-lvzhou_yuyanqiehuan topfont righticon"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>中 文</el-dropdown-item>
-            <el-dropdown-item>English</el-dropdown-item>
+            <el-dropdown-item @click.native="chineseChange">中 文</el-dropdown-item>
+            <el-dropdown-item @click.native="englishChange">English</el-dropdown-item>
+            <el-dropdown-item @click.native="idChange">id</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
@@ -86,8 +87,12 @@
 <script>
   import NavBar from './NavBar.vue'
   import screenfull from 'screenfull'
-  import ChangePassword from '../../components/changePassword.vue'
+  import ChangePassword from '../../components/personSet/changePassword.vue'
   import NavMenu from '../../components/navMenu.vue'
+  import locale from 'element-ui/lib/locale'
+  import enLocale from 'element-ui/lib/locale/lang/en'
+  import idLocale from 'element-ui/lib/locale/lang/id'
+  import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 
   export default {
     data() {
@@ -97,8 +102,9 @@
         isFullscreen: false,
         switchTabBar: true,
         fixedTabBar: true,
-        authList:[],
-        userName:''
+        authList: [],
+        userName: '',
+        loading: false
       };
     },
     created() {
@@ -107,7 +113,7 @@
     },
     methods: {
       getAdminAuth() {
-        this.$api.sendRequest('getAdminAuth').then(res=>{
+        this.$api.sendRequest('getAdminAuth').then(res => {
           this.authList = res.data.authList
         })
       },
@@ -147,6 +153,26 @@
       },
       beforeClose() {
         this.showChangePassword = false
+      },
+      englishChange() {
+        this.loading = true
+        this.$i18n.locale = 'en-US'
+        window.localStorage.setItem('language', 'en-US')
+        locale.use(enLocale)
+        setTimeout(()=>{
+          this.$router.go(0);
+          this.loading = false
+        },1000)
+      },
+      chineseChange() {
+        this.$i18n.locale = 'zh-CN'
+        window.localStorage.setItem('language', 'zh-CN')
+        locale.use(zhLocale)
+      },
+      idChange() {
+        this.$i18n.locale = 'id-US'
+        window.localStorage.setItem('language', 'id-US')
+        locale.use(idLocale)
       }
 
     },

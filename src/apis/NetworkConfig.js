@@ -56,6 +56,14 @@ let config = {
   enableUser: {method: 'get', url: '/api/enableUser'},//启用
   blockUser: {method: 'get', url: '/api/blockUser'},
   unblockUser: {method: 'get', url: '/api/unblockUser'},
+  getLoanList: {method: 'get', url: '/api/getLoanList'},
+  getLoanInfo: {method: 'get', url: '/api/getLoanInfo'},
+  getLifeCycle: {method: 'get', url: '/api/getLifeCycle'},
+
+  getProfile: {method: 'get', url: '/api/getProfile'},
+  getJob: {method: 'get', url: '/api/getJob'},
+  getContact: {method: 'get', url: '/api/getContact'},
+  getBankCard: {method: 'get', url: '/api/getBankCard'},
 }
 
 Object.keys(config).forEach(v => config[v].url = baseUrl + config[v].url);

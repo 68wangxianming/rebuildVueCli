@@ -130,7 +130,7 @@
       handleEdit(index, row) {
         this.value2 = this.$Func.returnSmsNum(row.status) && true || false
         this.configInfo = row;
-        this.config = JSON.parse(JSON.parse(row.config));
+        this.config = row.config;
         this.configKeys = Object.keys(this.config);
         this.showPopUp = true
         this.openRoleModelDialog(row);
@@ -142,7 +142,7 @@
       },
       saveForm() {
         this.configInfo.status = this.value2 && 1 || 0
-        this.configInfo.config = JSON.stringify(this.config);
+        this.configInfo.config = this.config;
         //保存用户
         this.$api.sendRequest('saveSmsConfig', {configInfo: this.configInfo}).then(res => {
           if (res.code == 200) {

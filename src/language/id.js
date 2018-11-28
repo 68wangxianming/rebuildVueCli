@@ -1,6 +1,6 @@
 export const m = {
-  label1: '用户信息zh',
-  label2: '角色设置',
+  label1: '用户信息id',
+  label2: '角色设置id',
   label3: '姓名',
   label4: '姓名',
   label5: '姓名',

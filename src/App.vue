@@ -56,4 +56,24 @@
     font-size: 15px !important;
     letter-spacing: 1px;
   }
+
+  .telephoneCollection .el-tabs__item{
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px !important;
+    letter-spacing: 1px;
+  }
+
+  .el-step__head.is-success {
+    color: #409EFF !important;
+    border-color: #409EFF !important;
+  }
+
+  .el-step__description.is-success {
+    color: #409EFF !important;
+  }
+
+  .el-step__title.is-success {
+    color: #409EFF !important;
+  }
 </style>
