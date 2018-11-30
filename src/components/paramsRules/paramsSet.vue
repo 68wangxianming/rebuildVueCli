@@ -3,18 +3,18 @@
     <div class="search">
       <el-input
         size="small"
-        placeholder="key值"
+        :placeholder="$t('m.label46')"
         suffix-icon="el-icon-date"
         v-model="configKey">
       </el-input>
       <el-input
         size="small"
-        placeholder="描述"
+        :placeholder="$t('m.label47')"
         suffix-icon="el-icon-date"
         v-model="description">
       </el-input>
-      <el-button type="primary" size="small" @click="getSysConfig">查询</el-button>
-      <el-button type="primary" size="small" @click="empty">清空</el-button>
+      <el-button type="primary" size="small" @click="getSysConfig" v-text="$t('m.label5')">查询</el-button>
+      <el-button type="primary" size="small" @click="empty" v-text="$t('m.label6')">清空</el-button>
     </div>
     <div class="content">
       <template>
@@ -23,21 +23,22 @@
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="id"><span>{{ props.row.id }}</span></el-form-item>
-                <el-form-item label="key值"><span>{{ props.row.configKey }}</span></el-form-item>
-                <el-form-item label="Value值"><span>{{ props.row.configValue }}</span></el-form-item>
-                <el-form-item label="描述"><span>{{ props.row.description }}</span></el-form-item>
-                <el-form-item label="创建时间"><span>{{ props.row._createTime }}</span></el-form-item>
-                <el-form-item label="更新时间"><span>{{ props.row._updateTime }}</span></el-form-item>
+                <el-form-item :label="$t('m.label46')"><span>{{ props.row.configKey }}</span></el-form-item>
+                <el-form-item :label="$t('m.label48')"><span>{{ props.row.configValue }}</span></el-form-item>
+                <el-form-item :label="$t('m.label47')"><span>{{ props.row.description }}</span></el-form-item>
+                <el-form-item :label="$t('m.label12')"><span>{{ props.row._createTime }}</span></el-form-item>
+                <el-form-item :label="$t('m.label13')"><span>{{ props.row._updateTime }}</span></el-form-item>
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column label="key值" prop="configKey"></el-table-column>
-          <el-table-column label="Value值" prop="configValue"></el-table-column>
-          <el-table-column label="描述" prop="description"></el-table-column>
-          <el-table-column label="创建时间" prop="_createTime"></el-table-column>
-          <el-table-column label="操作">
+          <el-table-column :label="$t('m.label46')" prop="configKey"></el-table-column>
+          <el-table-column :label="$t('m.label48')" prop="configValue"></el-table-column>
+          <el-table-column :label="$t('m.label47')" prop="description"></el-table-column>
+          <el-table-column :label="$t('m.label12')" prop="_createTime"></el-table-column>
+          <el-table-column :label="$t('m.label14')">
             <template slot-scope="scope">
-              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)" v-text="$t('m.label15')">编辑
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -60,22 +61,22 @@
       <!--分页End-->
     </div>
 
-    <AddPopup PopupTitle="修改参数" :showPopUp="showPopUp" @saveForm="saveForm" @closePopup="closePopup"
+    <AddPopup :PopupTitle="$t('m.label49')" :showPopUp="showPopUp" @saveForm="saveForm" @closePopup="closePopup"
               @before-close="beforeClose">
       <el-form :rules="rules" ref="form" :model="form" label-width="80px">
-        <el-form-item label="key值">
+        <el-form-item :label="$t('m.label46')">
           <el-input v-model="form.configKey" size="small" disabled></el-input>
         </el-form-item>
-        <el-form-item label="Value值" prop="configValue">
+        <el-form-item :label="$t('m.label48')" prop="configValue">
           <el-input v-model="form.configValue" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="描述" prop="description">
+        <el-form-item :label="$t('m.label47')" prop="description">
           <el-input v-model="form.description" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="创建时间">
+        <el-form-item :label="$t('m.label12')">
           <el-input v-model="form._createTime" size="small" disabled></el-input>
         </el-form-item>
-        <el-form-item label="更新时间">
+        <el-form-item :label="$t('m.label13')">
           <el-input v-model="form._updateTime" size="small" disabled></el-input>
         </el-form-item>
       </el-form>
@@ -100,10 +101,10 @@
         totalPage: null,
         rules: {
           configValue: [
-            {required: true, message: 'Value值不能为空', trigger: 'blur'}
+            {required: true, message: this.$t('m.label50'), trigger: 'blur'}
           ],
           description: [
-            {required: true, message: '描述不能为空', trigger: 'blur'}
+            {required: true, message: this.$t('m.label51'), trigger: 'blur'}
           ],
         },
         form: {
@@ -118,8 +119,8 @@
     methods: {
       getSysConfig() {
         let para = {
-          description: this.description, //用户名/邮箱
-          configKey: this.configKey, //姓名
+          description: this.description,
+          configKey: this.configKey,
           currentPage: this.currentPage,
           perPage: this.perPage,
         };
@@ -166,7 +167,6 @@
 
             //修改用户
             this.$api.sendRequest('saveSysConfig', {configInfo: this.form}).then(res => {
-              console.log(res, 'dsafsafdsfsafasfsafsafas');
               if (res.code == 200) {
                 let data = res.data;
                 this.userData = data.items;
@@ -177,7 +177,7 @@
                 this.showPopUp = false;
                 this.getSysConfig()
               } else {
-                this.$message.error('fail');
+                this.$message.error(this.$t('m.label30'));
               }
             });
           }
@@ -195,7 +195,7 @@
             });
             this.getSysConfig()
           } else {
-            this.$message.error('fail');
+            this.$message.error(this.$t('m.label30'));
           }
         });
       },

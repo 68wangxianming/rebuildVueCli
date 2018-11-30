@@ -1,3 +1,5 @@
+import i18n from "../language"
+
 export default {
   hasValInArrayObj: function (arr, key, val) {
     for (let i = 0; i < arr.length; i++) {
@@ -112,11 +114,55 @@ export default {
   //familyRelation
   returnFamilyRelationStatus(num) {
     let arr = ['父母', '配偶', '兄弟姐妹']
-    return arr[num-1]
+    return arr[num - 1]
   },
   //friendRelation
   returnFriendRelationStatus(num) {
     let arr = ['同学', '同事', '朋友']
-    return arr[num-1]
+    return arr[num - 1]
+  },
+  //返回电核处理结果
+  returnCallRecordStatus(num) {
+    let arr = [i18n.t('m.add159'), i18n.t('m.add160'), i18n.t('m.add161'), i18n.t('m.add162'), i18n.t('m.add163'), i18n.t('m.add164'), i18n.t('m.add165')]
+    return arr[num]
+  },
+  //返回客服电核问题
+  returnCustomerStatus(num) {
+    let arr = ['APP-注册登陆', 'APP-信息验证', 'APP-人脸识别', 'APP-借款申请', 'APP-还款支付', 'APP-其他']
+    return arr[num]
+  },
+  //返回客服电核问题NUm
+  returnCustomerNum(str) {
+    if (str.length > 1) {
+      let arr = ['APP-注册登陆', 'APP-信息验证', 'APP-人脸识别', 'APP-借款申请', 'APP-还款支付', 'APP-其他']
+      return arr.indexOf(str)
+    } else {
+      return str
+    }
+  },
+  //返回客服电核问题结果
+  returnCustomerResult(num) {
+    let arr = ['否', '是']
+    return arr[num]
+  },
+  //短信服务商启用状态
+  returnCustomerResultNum(str) {
+    let arr = ['否', '是']
+    return arr.indexOf(str).toString()
+  },
+  //返回客服电核问题结果
+  returnSendSmsStatus(num) {
+    let arr = ['发送中', '成功', '失败']
+    return arr[num]
+  },
+  //返回电话催收状态
+  returnCollectionStatus(num) {
+    let arr = ['可联', '失联', '第三方可联']
+    return arr[num - 1]
+  },
+  //返回电话催收原因
+  returnCollectionReasonStatus(num) {
+    let arr = ['疏忽忘记', '短期周转困难', '不在本地', '丧失还款能力', '疾病或重大事故', '死亡', '被捕或入狱', '负债躲避', '法律纠纷', '恶意拖欠', '不良嗜好', '恶意欺诈']
+    return arr[num - 1]
   },
 }

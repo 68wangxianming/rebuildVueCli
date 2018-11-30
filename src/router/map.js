@@ -84,10 +84,17 @@ export default {
         }
       },
       {
-        meta: ['电核', '电核详情'],
-        path: 'telephoneDetails',
+        meta: ['电核', '电核'],
+        path: 'telFilling',
         component: (resolve) => {
-          require(['@components/telephoneInterview/telephoneDetails.vue'], resolve)
+          require(['@components/telephoneInterview/telFilling.vue'], resolve)
+        }
+      },
+      {
+        meta: ['电核', '电核详情'],
+        path: 'telRecord',
+        component: (resolve) => {
+          require(['@components/telephoneInterview/telRecord.vue'], resolve)
         }
       },
     ]

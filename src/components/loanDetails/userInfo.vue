@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="userInfo" v-loading="loading">
     <div class="item">
       <h4 class="title">个人信息</h4>
       <p><span>姓名：</span><span>{{profileInfo.name}}</span></p>
@@ -107,7 +107,7 @@
 </script>
 
 <style scoped lang="less">
-  .index {
+  .userInfo {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

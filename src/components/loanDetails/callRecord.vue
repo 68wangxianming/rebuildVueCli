@@ -1,7 +1,7 @@
 <template>
   <div class="userInfo">
     <div class="search">
-      <el-button type="primary" size="small">电 核</el-button>
+      <el-button type="primary" size="small" @click="callRecord">电 核</el-button>
     </div>
     <div class="content">
       <template>
@@ -9,22 +9,21 @@
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="处理编号"><span>{{ props.row.email }}</span></el-form-item>
-                <el-form-item label="处理人"><span>{{ props.row.name }}</span></el-form-item>
-                <el-form-item label="处理时间"><span>{{ props.row.roleInfo.name }}</span></el-form-item>
-                <el-form-item label="处理结果"><span>{{ props.row.status }}</span></el-form-item>
-                <el-form-item label="处理理由"><span>{{ props.row.createTime }}</span></el-form-item>
-                <el-form-item label="备注"><span>{{ props.row.updateTime }}</span></el-form-item>
+                <el-form-item label="userId"><span>{{ props.row.userId }}</span></el-form-item>
+                <el-form-item label="处理编号"><span>{{ props.row.externalNo }}</span></el-form-item>
+                <el-form-item label="处理人"><span>{{ props.row.adminInfo.name }}</span></el-form-item>
+                <el-form-item label="处理时间"><span>{{ props.row.updateTime }}</span></el-form-item>
+                <el-form-item label="处理结果"><span>{{ props.row.result }}</span></el-form-item>
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column label="处理编号" prop="email"></el-table-column>
-          <el-table-column label="处理人" prop="name"></el-table-column>
-          <el-table-column label="处理时间" prop="roleInfo.name"></el-table-column>
-          <el-table-column label="处理结果" prop="status"></el-table-column>
+          <el-table-column label="处理编号" prop="externalNo"></el-table-column>
+          <el-table-column label="处理人" prop="adminInfo.name"></el-table-column>
+          <el-table-column label="处理时间" prop="updateTime"></el-table-column>
+          <el-table-column label="处理结果" prop="result"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">重新电核
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">电核详情
               </el-button>
             </template>
           </el-table-column>
@@ -54,6 +53,7 @@
   export default {
     data() {
       return {
+        loanId: '',
         loading: false,
         showPopUp: false,
         userData: [],
@@ -63,23 +63,31 @@
       }
     },
     created() {
-      this.getAdminList()
+      this.loanId = this.$route.query.loanId || localStorage.getItem("loanId")
+      this.getTelResultList()
     },
     methods: {
-      getAdminList() {
+      callRecord() {
+        this.$router.push({
+          path: 'telFilling',
+          query: {loanId: this.loanId}
+        })
+      },
+      getTelResultList() {
         let para = {
-          email: this.email, //用户名/邮箱
-          name: this.name, //姓名
+          loanId: this.loanId,
+          time: '',
           currentPage: this.currentPage,
           perPage: this.perPage,
         };
-        this.$api.sendRequest('getAdminList', para, {}, true, "loading", this).then(res => {
+        this.$api.sendRequest('getTelResultList', para, {}, true, "loading", this).then(res => {
           if (res.code == 200) {
             let data = res.data;
             data.items.forEach((v) => {
               v.createTime = this.$Func.timeConversion(v.createTime)
               v.updateTime = this.$Func.timeConversion(v.updateTime)
               v.status = this.$Func.returnUserStatus(v.status)
+              v.result = this.$Func.returnCallRecordStatus(v.result)
             })
             this.totalPage = data.pagination.totalCount;
             this.userData = data.items;
@@ -90,14 +98,19 @@
       },
       handleSizeChange(val) {
         this.perPage = val
-        this.getAdminList()
+        this.getTelResultList()
       },
       handleCurrentChange(val) {
         this.currentPage = val
-        this.getAdminList()
+        this.getTelResultList()
       },
-      handleDelete() {
-
+      handleDelete(index, row) {
+        localStorage.setItem("externalNo", row.externalNo);
+        localStorage.setItem("loanId", row.loanId);
+        this.$router.push({
+          path: 'telRecord',
+          query: {externalNo: row.externalNo, loanId: row.id}
+        })
       }
     },
   }

@@ -1,10 +1,17 @@
 <template>
   <div class="loan-details">
-    <div class="detailsTop">
+    <div class="detailsTop" v-loading="loading">
       <div class="top">
         <div class="personTitle">{{profileInfo.name}} - Rp{{loanInfo.amount}} - {{loanInfo.period}}*D/1</div>
         <div>
-          <el-button size="small" type="primary">推送</el-button>
+          <el-dropdown trigger="click">
+            <el-button size="small" type="primary">推 送 <i class="el-icon-arrow-down el-icon--right"></i></el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="(item,index) in pushList" :key="item.index"
+                                @click.native="choosePushList(item.action)">{{item.name}}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
       <div class="middle">
@@ -33,84 +40,99 @@
       <div class="step">
         <el-steps :active=timeActive finish-status="success">
           <el-step :description="loanInfo.createTime">
-            <el-popover
-              @show="showPopper('Created')"
-              slot="title"
-              placement="bottom-start"
-              title="操作记录"
-              width="500"
-              trigger="hover">
-              <el-table :data="stepsList">
-                <el-table-column property="operatorType" label="操作人"></el-table-column>
-                <el-table-column property="action" label="动作"></el-table-column>
-                <el-table-column property="createTime" label="时间"></el-table-column>
-              </el-table>
-              <div slot="reference"><span>创建 </span><i class="header-icon el-icon-info"></i></div>
-            </el-popover>
+            <div slot="title">
+              <span>创建 </span>
+              <el-popover
+                @show="showPopper('Created')"
+                placement="bottom-start"
+                title="操作记录"
+                width="650"
+                trigger="hover">
+                <el-table :data="stepsList" v-loading="loading1">
+                  <el-table-column property="operatorType" label="操作人"></el-table-column>
+                  <el-table-column property="action" label="动作"></el-table-column>
+                  <el-table-column property="createTime" label="时间"></el-table-column>
+                  <el-table-column property="note" label="备注"></el-table-column>
+                </el-table>
+                <i class="header-icon el-icon-info" slot="reference"> </i>
+              </el-popover>
+            </div>
           </el-step>
           <el-step :description="loanInfo.submitTime">
-            <el-popover
-              @show="showPopper('Submitted')"
-              slot="title"
-              placement="bottom-start"
-              title="操作记录"
-              width="500"
-              trigger="hover">
-              <el-table :data="stepsList">
-                <el-table-column property="operatorType" label="操作人"></el-table-column>
-                <el-table-column property="action" label="动作"></el-table-column>
-                <el-table-column property="createTime" label="时间"></el-table-column>
-              </el-table>
-              <div slot="reference"><span>提交 </span><i class="header-icon el-icon-info"></i></div>
-            </el-popover>
+            <div slot="title">
+              <span>提交 </span>
+              <el-popover
+                @show="showPopper('Submitted')"
+                placement="bottom-start"
+                title="操作记录"
+                width="650"
+                trigger="hover">
+                <el-table :data="stepsList" v-loading="loading1">
+                  <el-table-column property="operatorType" label="操作人"></el-table-column>
+                  <el-table-column property="action" label="动作"></el-table-column>
+                  <el-table-column property="createTime" label="时间"></el-table-column>
+                  <el-table-column property="note" label="备注"></el-table-column>
+                </el-table>
+                <i class="header-icon el-icon-info" slot="reference"> </i>
+              </el-popover>
+            </div>
           </el-step>
           <el-step :description="loanInfo.approveTime">
-            <el-popover
-              @show="showPopper('Approved')"
-              slot="title"
-              placement="bottom-start"
-              title="操作记录"
-              width="500"
-              trigger="hover">
-              <el-table :data="stepsList">
-                <el-table-column property="operatorType" label="操作人"></el-table-column>
-                <el-table-column property="action" label="动作"></el-table-column>
-                <el-table-column property="createTime" label="时间"></el-table-column>
-              </el-table>
-              <div slot="reference"><span>审核 </span><i class="header-icon el-icon-info"></i></div>
-            </el-popover>
+            <div slot="title">
+              <span>审核 </span>
+              <el-popover
+                @show="showPopper('Approved')"
+                placement="bottom-start"
+                title="操作记录"
+                width="650"
+                trigger="hover">
+                <el-table :data="stepsList" v-loading="loading1">
+                  <el-table-column property="operatorType" label="操作人"></el-table-column>
+                  <el-table-column property="action" label="动作"></el-table-column>
+                  <el-table-column property="createTime" label="时间"></el-table-column>
+                  <el-table-column property="note" label="备注"></el-table-column>
+                </el-table>
+                <i class="header-icon el-icon-info" slot="reference"> </i>
+              </el-popover>
+            </div>
           </el-step>
           <el-step :description="loanInfo.fundTime">
-            <el-popover
-              @show="showPopper('Funded')"
-              slot="title"
-              placement="bottom-start"
-              title="操作记录"
-              width="500"
-              trigger="hover">
-              <el-table :data="stepsList">
-                <el-table-column property="operatorType" label="操作人"></el-table-column>
-                <el-table-column property="action" label="动作"></el-table-column>
-                <el-table-column property="createTime" label="时间"></el-table-column>
-              </el-table>
-              <div slot="reference"><span>放款 </span><i class="header-icon el-icon-info"></i></div>
-            </el-popover>
+            <div slot="title">
+              <span>放款 </span>
+              <el-popover
+                @show="showPopper('Funded')"
+                placement="bottom-start"
+                title="操作记录"
+                width="650"
+                trigger="hover">
+                <el-table :data="stepsList" v-loading="loading1">
+                  <el-table-column property="operatorType" label="操作人"></el-table-column>
+                  <el-table-column property="action" label="动作"></el-table-column>
+                  <el-table-column property="createTime" label="时间"></el-table-column>
+                  <el-table-column property="note" label="备注"></el-table-column>
+                </el-table>
+                <i class="header-icon el-icon-info" slot="reference"> </i>
+              </el-popover>
+            </div>
           </el-step>
           <el-step :description="loanInfo.paidOffTime">
-            <el-popover
-              @show="showPopper('PaidOff')"
-              slot="title"
-              placement="bottom-start"
-              title="操作记录"
-              width="500"
-              trigger="hover">
-              <el-table :data="stepsList">
-                <el-table-column property="operatorType" label="操作人"></el-table-column>
-                <el-table-column property="action" label="动作"></el-table-column>
-                <el-table-column property="createTime" label="时间"></el-table-column>
-              </el-table>
-              <div slot="reference"><span>还款 </span><i class="header-icon el-icon-info"></i></div>
-            </el-popover>
+            <div slot="title">
+              <span>还款 </span>
+              <el-popover
+                @show="showPopper('PaidOff')"
+                placement="bottom-start"
+                title="操作记录"
+                width="650"
+                trigger="hover">
+                <el-table :data="stepsList" v-loading="loading1">
+                  <el-table-column property="operatorType" label="操作人"></el-table-column>
+                  <el-table-column property="action" label="动作"></el-table-column>
+                  <el-table-column property="createTime" label="时间"></el-table-column>
+                  <el-table-column property="note" label="备注"></el-table-column>
+                </el-table>
+                <i class="header-icon el-icon-info" slot="reference"> </i>
+              </el-popover>
+            </div>
           </el-step>
         </el-steps>
       </div>
@@ -120,31 +142,31 @@
         <template>
           <el-tabs v-model="activeName" @tab-click="handleClick" lazy size="small">
             <el-tab-pane label="用户信息" name="1">
-              <userInfo></userInfo>
+              <userInfo v-if="sendRequst.request1"></userInfo>
             </el-tab-pane>
             <el-tab-pane label="自拍照" name="2">
-              <userPhote></userPhote>
+              <userPhote v-if="sendRequst.request2"></userPhote>
             </el-tab-pane>
             <el-tab-pane label="合同" name="3">
-              <contract></contract>
+              <contract v-if="sendRequst.request3"></contract>
             </el-tab-pane>
             <el-tab-pane label="历史借款订单" name="4">
-              <historyLoanOrder></historyLoanOrder>
+              <historyLoanOrder v-if="sendRequst.request4"></historyLoanOrder>
             </el-tab-pane>
             <el-tab-pane label="借款订单审核记录" name="5">
-              <auditRecordLoanOrder></auditRecordLoanOrder>
+              <auditRecordLoanOrder v-if="sendRequst.request5"></auditRecordLoanOrder>
             </el-tab-pane>
             <el-tab-pane label="规则引擎结果" name="6">
-              <ruleEngineResult></ruleEngineResult>
+              <ruleEngineResult v-if="sendRequst.request6"></ruleEngineResult>
             </el-tab-pane>
             <el-tab-pane label="电核记录" name="7">
-              <callRecord></callRecord>
+              <callRecord v-if="sendRequst.request7"></callRecord>
             </el-tab-pane>
             <el-tab-pane label="催核记录" name="8">
-              <collectionRecord></collectionRecord>
+              <collectionRecord v-if="sendRequst.request8"></collectionRecord>
             </el-tab-pane>
             <el-tab-pane label="客服记录" name="9">
-              <customerServiceRecord></customerServiceRecord>
+              <customerServiceRecord v-if="sendRequst.request9"></customerServiceRecord>
             </el-tab-pane>
           </el-tabs>
         </template>
@@ -167,6 +189,9 @@
   export default {
     data() {
       return {
+        loading1:true,
+        loading: true,
+        loanId: '',
         loanNo: '',
         userId: '',
         activeName: '1',
@@ -178,13 +203,28 @@
         perPage: 10,
         totalPage: null,
         stepsList: [],
+        pushList: [],
+        note: '',
+        sendRequst:{
+          request1:true,
+          request2:false,
+          request3:false,
+          request4:false,
+          request5:false,
+          request6:false,
+          request7:false,
+          request8:false,
+          request9:false,
+        }
       }
     },
     created() {
       this.loanNo = this.$route.query.loanNo || localStorage.getItem("loanNo")
       this.userId = this.$route.query.userId || localStorage.getItem("userId")
+      this.loanId = this.$route.query.loanId || localStorage.getItem("loanId")
       localStorage.setItem("loanNo", this.loanNo);
       localStorage.setItem("userId", this.userId);
+      localStorage.setItem("loanId", this.loanId);
       this.getLoanInfo()
     },
     methods: {
@@ -195,7 +235,7 @@
           perPage: this.perPage,
           currentPage: this.currentPage
         }
-        this.$api.sendRequest('getLifeCycle', para, {}, true, "loading", this).then(res => {
+        this.$api.sendRequest('getLifeCycle', para, {}, true, "loading1", this).then(res => {
           if (res.code == 200) {
             let data = res.data;
             data.items.forEach((v) => {
@@ -223,6 +263,7 @@
             this.loanInfo.approveTime = data.loanInfo && data.loanInfo.approveTime && this.$Func.timeConversion(data.loanInfo.approveTime) || ''
             this.loanInfo.fundTime = data.loanInfo && data.loanInfo.fundTime && this.$Func.timeConversion(data.loanInfo.fundTime) || ''
             this.loanInfo.paidOffTime = data.loanInfo && data.loanInfo.paidOffTime && this.$Func.timeConversion(data.loanInfo.paidOffTime) || ''
+
             if (data.loanInfo.status == 0 || data.loanInfo.status == 2) {
               this.timeActive = 1
             } else if (data.loanInfo.status == 1 || data.loanInfo.status == 3 || data.loanInfo.status == 4 || data.loanInfo.status == 5 || data.loanInfo.status == 6) {
@@ -234,13 +275,62 @@
             } else {
               this.timeActive = 5
             }
+
+            //调用产生pushList
+            this.getPushList(data.loanInfo.status)
+
           } else {
             this.$alert('请求失败')
           }
         })
       },
+      getPushList(status) {
+        if (status == 1) {
+          this.pushList = [{name: '待审核', action: 'sendManual'}, {name: '取消', action: 'cancelLoan'}]
+        } else if (status == 3) {
+          this.pushList = [{name: '待电核', action: 'approveLoan'}, {name: '审核拒绝', action: 'rejectLoan'}, {
+            name: '取消',
+            action: 'cancelLoan'
+          }]
+        } else if (status == 5) {
+          this.pushList = [{name: '待放款', action: 'confirmLoan'}, {name: '电核拒绝', action: 'telRejectLoan'}, {
+            name: '取消',
+            action: 'cancelLoan'
+          }]
+        } else if (status == 6) {
+          this.pushList = [{name: '同意放款', action: 'fundApproveLoan'}, {name: '拒绝放款', action: 'fundRejectLoan'}, {
+            name: '取消',
+            action: 'cancelLoan'
+          }]
+        } else if (status == 8) {
+          this.pushList = [{name: '重新放款', action: 'reFundLoan '}, {name: '取消', action: 'cancelLoan'}]
+        } else {
+          this.pushList = []
+        }
+      },
+      choosePushList(str) {
+        this.$prompt('备注信息', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({value}) => {
+          let para = {loanId: this.loanId, note: value}
+          this.$api.sendRequest(str, para, {}, true, "loading", this).then(res => {
+            if (res.code == 200 && res.data.result) {
+              this.getLoanInfo()
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });
+        });
+        let para = {loanId: this.loanId, note: this.note}
+
+        console.log(str);
+      },
       handleClick(tab, event) {
-        console.log(tab, event, '🐔臭逼');
+        this.sendRequst['request'+tab.name]=true;
       }
     },
     components: {
@@ -324,6 +414,9 @@
           width: 79vw;
         }
       }
+    }
+    i{
+      cursor: pointer;
     }
   }
 </style>

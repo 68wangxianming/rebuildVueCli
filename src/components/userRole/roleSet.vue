@@ -1,17 +1,19 @@
 <template>
   <div class="roleSet">
     <div class="search">
-      <el-button type="primary" size="small" @click="addUserRole">新增</el-button>
+      <el-button type="primary" size="small" @click="addUserRole" v-text="$t('m.label7')">新增</el-button>
     </div>
     <div class="content">
       <template>
         <el-table :data="roleData" border style="width: 99%;" v-loading="loading">
-          <el-table-column prop="name" label="角色名称" align="center"></el-table-column>
-          <el-table-column prop="description" label="角色描述" align="center"></el-table-column>
-          <el-table-column label="操作" align="center">
+          <el-table-column prop="name" :label="$t('m.label39')" align="center"></el-table-column>
+          <el-table-column prop="description" :label="$t('m.label40')" align="center"></el-table-column>
+          <el-table-column :label="$t('m.label14')" align="center">
             <template slot-scope="scope">
-              <el-button size="mini" @click="userRoleHandleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button size="mini" type="danger" @click="userRolehandleDelete(scope.$index, scope.row)">删除
+              <el-button size="mini" @click="userRoleHandleEdit(scope.$index, scope.row)" v-text="$t('m.label15')">编辑
+              </el-button>
+              <el-button size="mini" type="danger" @click="userRolehandleDelete(scope.$index, scope.row)"
+                         v-text="$t('m.label16')">删除
               </el-button>
             </template>
           </el-table-column>
@@ -34,13 +36,13 @@
       </template>
       <!--分页End-->
     </div>
-    <AddPopup PopupTitle="新增/修改角色" :showPopUp="showPopUp" @saveForm="saveForm()" @closePopup="closePopup"
+    <AddPopup :PopupTitle="$t('m.label38')" :showPopUp="showPopUp" @saveForm="saveForm()" @closePopup="closePopup"
               @before-close="beforeClose">
       <el-form :model="roleModel" label-width="80px" :rules="roleRules" ref="roleModel">
-        <el-form-item label="角色名称" prop="name">
+        <el-form-item :label="$t('m.label39')" prop="name">
           <el-input v-model="roleModel.name" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="角色描述" prop="description">
+        <el-form-item :label="$t('m.label40')" prop="description">
           <el-input v-model="roleModel.description" size="small"></el-input>
         </el-form-item>
       </el-form>
@@ -71,10 +73,10 @@
         roleData: [],
         roleRules: {
           name: [
-            {required: true, message: '角色名称不能为空', trigger: 'blur'}
+            {required: true, message: this.$t('m.label41'), trigger: 'blur'}
           ],
           description: [
-            {required: true, message: '角色描述不能为空', trigger: 'blur'}
+            {required: true, message: this.$t('m.label42'), trigger: 'blur'}
           ],
         },
         authTree: [],
@@ -115,7 +117,7 @@
             this.totalPage = data.pagination.totalCount;
             this.roleData = data.items;
           } else {
-            this.$alert('fail')
+            this.$alert(this.$t('m.label30'))
           }
         });
       },
@@ -125,7 +127,7 @@
             let data = res.data;
             this.authTree = data.authTree;
           } else {
-            this.$alert('fail')
+            this.$alert(this.$t('m.label30'))
           }
         });
       },
@@ -137,9 +139,9 @@
         done && done();
       },
       handleCheckChange(node, tree) {
-        console.log('======checkedKeys',tree.checkedKeys);
-        console.log('====treee',tree);
-        this.roleModel.authList = [...tree.halfCheckedKeys,...tree.checkedKeys].join('|')
+        console.log('======checkedKeys', tree.checkedKeys);
+        console.log('====treee', tree);
+        this.roleModel.authList = [...tree.halfCheckedKeys, ...tree.checkedKeys].join('|')
       },
       //打开编辑/新增角色弹窗
       openRoleModelDialog(role) {
@@ -157,29 +159,29 @@
             this.$api.sendRequest('saveRole', {roleInfo: this.roleModel}).then(res => {
               if (res.code == 200) {
                 this.$message({
-                  message: 'success',
+                  message: this.$t('m.label31'),
                   type: 'success'
                 });
                 this.showPopUp = false;
                 this.getRoleList()
               } else {
-                this.$message.error('fail');
+                this.$message.error(this.$t('m.label30'));
               }
             });
           }
         })
       },
       userRolehandleDelete(index, row) {
-        this.$confirm('此操作将删除角色是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('m.label43'), this.$t('m.label33'), {
+          confirmButtonText: this.$t('m.label34'),
+          cancelButtonText: this.$t('m.label35'),
           type: 'warning'
         }).then(() => {
           this.$api.sendRequest("removeRole", {id: row.id}).then(res => {
             if (res.code == 200) {
               this.$message({
                 type: 'success',
-                message: '删除成功!'
+                message: this.$t('m.label36')
               });
               this.getRoleList()
             }
@@ -188,7 +190,7 @@
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('m.label37')
           });
         });
       },

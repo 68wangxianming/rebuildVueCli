@@ -215,7 +215,7 @@
       goDetails(index, row) {
         this.$router.push({
           path: 'loan-details',
-          query: {loanNo: row.loanNo,userId:row.userId}
+          query: {loanNo: row.loanNo,userId:row.userId,loanId:row.id}
         })
       },
       saveForm() {

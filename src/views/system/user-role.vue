@@ -5,7 +5,7 @@
         <el-tab-pane :label="this.$t('m.label1')" name="first">
           <UserInfo></UserInfo>
         </el-tab-pane>
-        <el-tab-pane label="角色设置1" name="second">
+        <el-tab-pane :label="this.$t('m.label2')" name="second">
           <RoleSet></RoleSet>
         </el-tab-pane>
       </el-tabs>

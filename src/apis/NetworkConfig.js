@@ -64,6 +64,29 @@ let config = {
   getJob: {method: 'get', url: '/api/getJob'},
   getContact: {method: 'get', url: '/api/getContact'},
   getBankCard: {method: 'get', url: '/api/getBankCard'},
+
+  getTelQuestions: {method: 'get', url: '/api/getTelQuestions'},
+  insertTelResult: {method: 'post', url: '/api/insertTelResult'},
+  getTelResultList: {method: 'get', url: '/api/getTelResultList'},
+  getTelResultInfo: {method: 'get', url: '/api/getTelResultInfo'},
+
+  cancelLoan: {method: 'post', url: '/api/cancelLoan'},
+  sendManual: {method: 'post', url: '/api/sendManual'},//待审核
+  approveLoan: {method: 'post', url: '/api/approveLoan'},//待电核
+  confirmLoan: {method: 'post', url: '/api/confirmLoan'},//待放款
+  fundApproveLoan: {method: 'post', url: '/api/fundApproveLoan'},//同意放款
+  rejectLoan: {method: 'post', url: '/api/rejectLoan'},//审核拒绝
+  telRejectLoan: {method: 'post', url: '/api/telRejectLoan'},//电核拒绝
+  fundRejectLoan : {method: 'post', url: '/api/fundRejectLoan '},//放款拒绝
+  reFundLoan  : {method: 'post', url: '/api/reFundLoan  '},//重新放款
+
+  addCustomRecord  : {method: 'post', url: '/api/addCustomRecord'},//新增客服
+  getCustomRecord  : {method: 'get', url: '/api/getCustomRecord'},//客服列表
+  saveCustomRecord  : {method: 'post', url: '/api/saveCustomRecord'},//修改客服列表
+  getSmsRecord  : {method: 'get', url: '/api/getSmsRecord'},//修改客服列表
+  sendCollectSms  : {method: 'post', url: '/api/sendCollectSms'},
+  addCollectRecord  : {method: 'post', url: '/api/addCollectRecord'},
+  getCollectRecord  : {method: 'get', url: '/api/getCollectRecord'},
 }
 
 Object.keys(config).forEach(v => config[v].url = baseUrl + config[v].url);

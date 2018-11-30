@@ -3,19 +3,19 @@
     <div class="search">
       <el-input
         size="small"
-        placeholder="请输入用户名"
+        :placeholder="this.$t('m.label3')"
         suffix-icon="el-icon-date"
         v-model="email">
       </el-input>
       <el-input
         size="small"
-        placeholder="请输入姓名"
+        :placeholder="this.$t('m.label4')"
         suffix-icon="el-icon-date"
         v-model="name">
       </el-input>
-      <el-button type="primary" size="small" @click="getAdminList">查询</el-button>
-      <el-button type="primary" size="small" @click="empty">清空</el-button>
-      <el-button type="primary" size="small" @click="addNew">新增</el-button>
+      <el-button type="primary" size="small" @click="getAdminList">{{this.$t('m.label5')}}</el-button>
+      <el-button type="primary" size="small" @click="empty">{{this.$t('m.label6')}}</el-button>
+      <el-button type="primary" size="small" @click="addNew">{{this.$t('m.label7')}}</el-button>
     </div>
     <div class="content">
       <template>
@@ -23,24 +23,24 @@
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="用户名"><span>{{ props.row.email }}</span></el-form-item>
-                <el-form-item label="姓名"><span>{{ props.row.name }}</span></el-form-item>
-                <el-form-item label="角色"><span>{{ props.row.roleInfo.name }}</span></el-form-item>
-                <el-form-item label="状态"><span>{{ props.row.status }}</span></el-form-item>
-                <el-form-item label="创建时间"><span>{{ props.row.createTime }}</span></el-form-item>
-                <el-form-item label="更新时间"><span>{{ props.row.updateTime }}</span></el-form-item>
+                <el-form-item :label="$t('m.label8')"><span>{{ props.row.email }}</span></el-form-item>
+                <el-form-item :label="$t('m.label9')"><span>{{ props.row.name }}</span></el-form-item>
+                <el-form-item :label="$t('m.label11')"><span>{{ props.row.status }}</span></el-form-item>
+                <el-form-item :label="$t('m.label12')"><span>{{ props.row.createTime }}</span></el-form-item>
+                <el-form-item :label="$t('m.label13')"><span>{{ props.row.updateTime }}</span></el-form-item>
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column label="用户名" prop="email"></el-table-column>
-          <el-table-column label="姓名" prop="name"></el-table-column>
-          <el-table-column label="角色" prop="roleInfo.name"></el-table-column>
-          <el-table-column label="状态" prop="status"></el-table-column>
-          <el-table-column label="操作">
+          <el-table-column :label="$t('m.label8')" prop="email"></el-table-column>
+          <el-table-column :label="$t('m.label9')" prop="name"></el-table-column>
+          <el-table-column :label="$t('m.label10')" prop="roleInfo.name"></el-table-column>
+          <el-table-column :label="$t('m.label11')" prop="status"></el-table-column>
+          <el-table-column :label="$t('m.label14')">
             <template slot-scope="scope">
-              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)" v-text="$t('m.label15')">编辑
+              </el-button>
               <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)"
-                         v-if="scope.row.id!= 1">删除
+                         v-if="scope.row.id!= 1" v-text="$t('m.label16')">删除
               </el-button>
             </template>
           </el-table-column>
@@ -64,25 +64,25 @@
       <!--分页End-->
     </div>
 
-    <AddPopup PopupTitle="新增/修改角色" :showPopUp="showPopUp" @saveForm="saveForm" @closePopup="closePopup"
+    <AddPopup :PopupTitle="$t('m.label18')" :showPopUp="showPopUp" @saveForm="saveForm" @closePopup="closePopup"
               @before-close="beforeClose">
       <el-form :rules="rules" ref="form" :model="form" label-width="80px">
-        <el-form-item label="用户名" prop="email">
+        <el-form-item :label="$t('m.label19')" prop="email">
           <el-input v-model="form.email" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
+        <el-form-item :label="$t('m.label20')" prop="name">
           <el-input v-model="form.name" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item :label="$t('m.label21')" prop="password">
           <el-input v-model="form.password" size="small" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="角色">
-          <el-select v-model="value1" placeholder="请选择活动区域" size="small" :disabled="adminEditStatus">
+        <el-form-item :label="$t('m.label22')">
+          <el-select v-model="value1" placeholder="" size="small" :disabled="adminEditStatus">
             <el-option :label="item.name" :key="item.value" :value="item.id" v-for="item in options1"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="value2" placeholder="请选择活动区域" size="small" :disabled="adminEditStatus">
+        <el-form-item :label="$t('m.label23')">
+          <el-select v-model="value2" placeholder="" size="small" :disabled="adminEditStatus">
             <el-option :label="item.label" :key="item.value" :value="item.value" v-for="item in options2"></el-option>
           </el-select>
         </el-form-item>
@@ -96,6 +96,14 @@
 
   export default {
     data() {
+      let validcodeName = (rule, value, callback) => {
+        let reg = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g
+        if (!reg.test(value)) {
+          callback(new Error(this.$t('m.label24')))
+        } else {
+          callback()
+        }
+      };
       return {
         loading: false,
         showPopUp: false,
@@ -109,21 +117,22 @@
         value1: '',
         options2: [{
           value: '0',
-          label: '禁用'
+          label: this.$t('m.label25')
         }, {
           value: '1',
-          label: '正常'
+          label: this.$t('m.label26')
         }],
         value2: '1',
         rules: {
           email: [
-            {required: true, message: '邮箱不能为空', trigger: 'blur'}
+            {required: true, message: this.$t('m.label27'), trigger: 'blur'},
+            {validator: validcodeName, trigger: 'blur'}
           ],
           name: [
-            {required: true, message: '名字不能为空', trigger: 'blur'}
+            {required: true, message: this.$t('m.label28'), trigger: 'blur'}
           ],
           password: [
-            {required: true, message: '密码不能为空', trigger: 'blur'}
+            {required: true, message: this.$t('m.label29'), trigger: 'blur'}
           ],
         },
         form: {
@@ -160,7 +169,7 @@
             this.totalPage = data.pagination.totalCount;
             this.userData = data.items;
           } else {
-            this.$alert('请求失败')
+            this.$alert(this.$t('m.label30'))
           }
         })
       },
@@ -207,7 +216,7 @@
             let data = res.data;
             this.options1 = data.items;
           } else {
-            this.$alert('fail')
+            this.$alert(this.$t('m.label30'))
           }
         });
       },
@@ -243,13 +252,13 @@
                   let data = res.data;
                   this.userData = data.items;
                   this.$message({
-                    message: 'success',
+                    message: this.$t('m.label31'),
                     type: 'success'
                   });
                   this.showPopUp = false;
                   this.getAdminList()
                 } else {
-                  this.$message.error('fail');
+                  this.$message.error(this.$t('m.label30'));
                 }
               });
             } else {
@@ -266,13 +275,13 @@
                   let data = res.data;
                   this.userData = data.items;
                   this.$message({
-                    message: 'success',
+                    message: this.$t('m.label31'),
                     type: 'success'
                   });
                   this.showPopUp = false;
                   this.getAdminList()
                 } else {
-                  this.$message.error('fail');
+                  this.$message.error(this.$t('m.label30'));
                 }
               });
             }
@@ -280,16 +289,16 @@
         })
       },
       handleDelete(index, row) {
-        this.$confirm('此操作将删除用户是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('m.label32'), this.$t('m.label33'), {
+          confirmButtonText: this.$t('m.label34'),
+          cancelButtonText: this.$t('m.label35'),
           type: 'warning'
         }).then(() => {
           this.$api.sendRequest("deleteAdmin", {adminId: row.id}).then(res => {
             if (res.code == 200) {
               this.$message({
                 type: 'success',
-                message: '删除成功!'
+                message: this.$t('m.label36')
               });
               this.getAdminList()
             }
@@ -298,7 +307,7 @@
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('m.label37')
           });
         });
       },

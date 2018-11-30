@@ -149,13 +149,25 @@
       <h4 class="title">逾期原因</h4>
       <el-form label-width="120px">
         <el-form-item label="联系状态" prop="email">
-          <el-radio-group v-model="radio2">
-            <el-radio :label="3">备选项</el-radio>
-            <el-radio :label="6">备选项</el-radio>
-            <el-radio :label="9">备选项</el-radio>
+          <el-radio-group v-model="contactStatus">
+            <el-radio :label="1">可联</el-radio>
+            <el-radio :label="2">失联</el-radio>
+            <el-radio :label="3">第三方可联</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="承诺还款时间" prop="name">
+        <el-form-item label="逾期原因">
+          <template>
+            <el-select v-model="value" placeholder="请选择" size="small">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </el-form-item>
+        <el-form-item label="承诺还款时间">
           <template>
             <div class="time">
               <el-date-picker
@@ -167,16 +179,16 @@
             </div>
           </template>
         </el-form-item>
-        <el-form-item label="备注信息" prop="name">
+        <el-form-item label="备注信息">
           <el-input
             type="textarea"
             size="small"
             placeholder="请输入内容"
-            v-model="textarea3">
+            v-model="note">
           </el-input>
         </el-form-item>
-        <el-form-item label="" prop="name">
-          <el-button type="primary" size="small">保存</el-button>
+        <el-form-item label="">
+          <el-button type="primary" size="small" @click="addCollectRecord">保存</el-button>
           <el-button size="small">取消</el-button>
         </el-form-item>
       </el-form>
@@ -188,14 +200,16 @@
   export default {
     data() {
       return {
+        loanId: '',
+        calledPhone: '120',
+        contactStatus: null,
         currentPage: 1,
         perPage: 10,
         totalPage: null,
-        value1:'',
+        value1: '',
         checked: true,
         activeName: 'first',
-        radio2: 3,
-        textarea3: '',
+        note: '',
         tableData3: [
           {date: '2016-05-03', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄'},
           {date: '2016-05-03', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄'},
@@ -208,8 +222,50 @@
           {date: '2016-05-03', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄'},
           {date: '2016-05-03', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄'},
         ],
-        multipleSelection: []
+        multipleSelection: [],
+        value: '',
+        options: [{
+          value: '1',
+          label: '疏忽忘记'
+        }, {
+          value: '2',
+          label: '短期周转困难'
+        }, {
+          value: '3',
+          label: '不在本地'
+        }, {
+          value: '4',
+          label: '丧失还款能力'
+        }, {
+          value: '5',
+          label: '重大疾病或事故'
+        }, {
+          value: '6',
+          label: '死亡'
+        }, {
+          value: '7',
+          label: '被捕或入狱'
+        }, {
+          value: '8',
+          label: '负债躲避'
+        }, {
+          value: '9',
+          label: '法律纠纷'
+        }, {
+          value: '10',
+          label: '恶意拖欠'
+        }, {
+          value: '11',
+          label: '不良嗜好'
+        }, {
+          value: '12',
+          label: '恶意欺诈'
+        }],
       };
+    },
+    created() {
+      this.loanId = this.$route.query.loanId || localStorage.getItem('loanId')
+
     },
     methods: {
       handleClick(tab, event) {
@@ -233,6 +289,33 @@
       handleCurrentChange(val) {
         this.currentPage = val
       },
+      addCollectRecord() {
+        this.$api.sendRequest('addCollectRecord', {
+          loanId: this.loanId,
+          calledPhone: this.calledPhone,
+          contactStatus: this.contactStatus,
+          reason: this.value,
+          promisePaidOffTime: new Date(this.value1).getTime(),
+          note: this.note
+        }, {}, true, "loading", this).then(res => {
+          if (res.code == 200) {
+            this.$message({
+              message: 'success',
+              type: 'success'
+            });
+            this.$router.push({
+              path: 'loan-details',
+              query: {
+                loanId: this.loanId,
+                loanNo: localStorage.getItem('loanNo'),
+                userId: localStorage.getItem('userId')
+              }
+            })
+          } else {
+            this.$alert('请求失败')
+          }
+        })
+      }
     }
   }
 </script>
@@ -270,23 +353,23 @@
       z-index: 2;
       bottom: 0;
       width: 83%;
-      height: 250px;
+      height: 300px;
       background-color: #EBF6FE;
-      .title{
+      .title {
         padding-top: 10px;
         text-indent: 20px;
       }
       .el-input {
         width: 200px;
       }
-      .el-textarea__inner{
+      .el-textarea__inner {
         width: 400px;
       }
-      .el-form-item{
+      .el-form-item {
         margin-bottom: 10px;
       }
     }
-    .block{
+    .block {
       text-align: right;
       margin: 10px 10px 0 0;
     }
