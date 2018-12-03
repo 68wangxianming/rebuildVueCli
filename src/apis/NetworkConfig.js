@@ -87,6 +87,7 @@ let config = {
   sendCollectSms  : {method: 'post', url: '/api/sendCollectSms'},
   addCollectRecord  : {method: 'post', url: '/api/addCollectRecord'},
   getCollectRecord  : {method: 'get', url: '/api/getCollectRecord'},
+  changePasswd  : {method: 'post', url: '/api/changePasswd'},
 }
 
 Object.keys(config).forEach(v => config[v].url = baseUrl + config[v].url);

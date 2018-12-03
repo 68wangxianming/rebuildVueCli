@@ -9,7 +9,6 @@
                text-color="#fff"
                active-text-color="#ffd04b"
                router>
-
         <!--<el-submenu index="1">-->
         <!--<template slot="title">-->
         <!--<i class="el-icon-location"></i>-->
@@ -52,13 +51,13 @@
             <el-dropdown-item>个人信息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
             <el-dropdown-item command="resetPassword">重置密码</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item command="logOut">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
         <el-dropdown class="righticon" style="margin-right: -10px;">
           <span class="el-dropdown-link">
-                   <i class="iconfont icon-lvzhou_yuyanqiehuan topfont righticon"></i>
+            <i class="iconfont icon-lvzhou_yuyanqiehuan topfont righticon"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="chineseChange">中 文</el-dropdown-item>
@@ -66,10 +65,8 @@
             <el-dropdown-item @click.native="idChange">id</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-
         <i class="iconfont icon-quanping topfont righticon" @click="buttoncli"></i>
         <i class="iconfont icon-shezhi topfont righticon"></i>
-
       </div>
       <NavBar id="nav-bar"></NavBar>
       <div class="layout-content">
@@ -78,17 +75,25 @@
         </transition>
       </div>
     </div>
-
-    <ChangePassword :showChangePassword="showChangePassword" @closePopup="closePopup" @saveForm="saveForm"
-                    @beforeClose="beforeClose"></ChangePassword>
+    <AddPopup PopupTitle="修改密码" :showPopUp="showPopUp" @saveForm="saveForm" @closePopup="closePopup"
+              @before-close="beforeClose">
+      <el-form :rules="rules" ref="form" :model="form" label-width="80px">
+        <el-form-item label="旧密码" prop="oldPass">
+          <el-input v-model="form.oldPass" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="newPass">
+          <el-input v-model="form.newPass" size="small"></el-input>
+        </el-form-item>
+      </el-form>
+    </AddPopup>
   </div>
 </template>
 
 <script>
   import NavBar from './NavBar.vue'
   import screenfull from 'screenfull'
-  import ChangePassword from '../../components/personSet/changePassword.vue'
   import NavMenu from '../../components/navMenu.vue'
+  import AddPopup from '../../components/addPopup.vue'
   import locale from 'element-ui/lib/locale'
   import enLocale from 'element-ui/lib/locale/lang/en'
   import idLocale from 'element-ui/lib/locale/lang/id'
@@ -97,14 +102,26 @@
   export default {
     data() {
       return {
-        showChangePassword: false,
+        showPopUp: false,
         isCollapse: false,
         isFullscreen: false,
         switchTabBar: true,
         fixedTabBar: true,
         authList: [],
         userName: '',
-        loading: false
+        loading: false,
+        rules: {
+          oldPass: [
+            {required: true, message: '旧密码不能为空', trigger: 'blur'}
+          ],
+          newPass: [
+            {required: true, message: '旧密码不能为空', trigger: 'blur'}
+          ],
+        },
+        form: {
+          oldPass: '',
+          newPass: '',
+        },
       };
     },
     created() {
@@ -142,17 +159,48 @@
       },
       handleCommand(command) {
         if (command == 'resetPassword') {
-          this.showChangePassword = true
+          this.showPopUp = true
+        } else if (command == 'logOut') {
+          this.$message({
+            message: '退出成功',
+            type: 'success'
+          });
+          localStorage.clear()
+          setTimeout(() => {
+            this.$router.push('login')
+          }, 300)
         }
       },
       closePopup() {
-        this.showChangePassword = false
+        this.showPopUp = false
+      },
+      beforeClose(done) {
+        this.showPopUp = false;
+        done && done();
       },
       saveForm() {
-
-      },
-      beforeClose() {
-        this.showChangePassword = false
+        this.$refs.form.validate((valid) => {
+          if (valid) {
+            this.$api.sendRequest('changePasswd', {
+              oldPass: this.form.oldPass,
+              newPass: this.form.newPass,
+            }).then(res => {
+              if (res.code == 200) {
+                this.showPopUp = false;
+                this.$message({
+                  message: this.$t('m.label31'),
+                  type: 'success'
+                });
+                localStorage.clear()
+                setTimeout(() => {
+                  this.$router.push('login')
+                }, 300)
+              } else {
+                this.$message.error(this.$t('m.label30'));
+              }
+            });
+          }
+        })
       },
       englishChange() {
         this.loading = true
@@ -188,8 +236,8 @@
     },
     components: {
       NavBar,
-      ChangePassword,
-      NavMenu
+      NavMenu,
+      AddPopup
     }
   }
 </script>
@@ -244,6 +292,10 @@
         min-height: calc(100vh - 120px);
         background: #fff;
       }
+    }
+
+    .el-input {
+      width: 250px;
     }
   }
 
